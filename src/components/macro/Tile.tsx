@@ -53,7 +53,16 @@ function Sparkline({ data, color, end, recessions }: { data: Series; color: stri
 
 export default function Tile({ spec, data, color, end, recessions }: Props) {
   const ya = useMemo(() => yearAgo(data, spec.freq), [data, spec.freq]);
-  if (!ya) return null;
+  if (!ya) {
+    return (
+      <div className="rounded-xl border border-fika-border bg-fika-surface px-3 sm:px-4 pt-3 pb-3 min-w-0">
+        <div className="text-[11px] font-bold uppercase tracking-wider text-fika-secondary leading-none truncate">{spec.label}</div>
+        <div className="text-[11px] text-fika-tertiary leading-tight mt-1">{spec.qualifier}</div>
+        <div className="font-grotesk text-[27px] font-bold text-fika-tertiary leading-none mt-2.5">—</div>
+        <div className="text-[12px] text-fika-secondary leading-tight mt-1.5">arrives with the next data refresh</div>
+      </div>
+    );
+  }
   const fmt = FORMAT[spec.key];
 
   return (
