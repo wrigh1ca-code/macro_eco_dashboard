@@ -13,6 +13,8 @@ import {
   RECESSION_FILL, TILES, type Key,
 } from './registry';
 import Sources from './Sources';
+import { computeHealth, type Verdict } from './health';
+import { Heart, TONE, WORD } from './HealthBadge';
 import Tile from './Tile';
 
 interface Props {
@@ -132,6 +134,13 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
     [data, start, end],
   );
 
+  const health = useMemo(() => (data ? computeHealth(data.series) : null), [data]);
+  const tally = useMemo(() => {
+    const t: Record<Verdict, number> = { good: 0, mixed: 0, bad: 0, none: 0 };
+    if (health) for (const h of Object.values(health)) t[h.verdict]++;
+    return t;
+  }, [health]);
+
   const recessions = data?.recessions ?? [];
   const legendOf = (keys: Key[]) => keys.map(k => ({ name: NAME[k], color: COLOR[k] }));
 
@@ -168,6 +177,18 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         </div>
       </header>
 
+      {health && (
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-xl border border-fika-border bg-fika-surface px-4 py-2.5 mb-4">
+          <span className="font-grotesk text-[14px] font-bold text-fika-text">Today&rsquo;s reading</span>
+          {(['good', 'mixed', 'bad', 'none'] as Verdict[]).filter(v => v !== 'none' || tally.none > 0).map(v => (
+            <span key={v} className="flex items-center gap-1.5 text-[13px] font-semibold" style={{ color: TONE[v].ink }}>
+              <Heart verdict={v} size={24} />
+              {tally[v]} {v === 'none' ? 'waiting for data' : WORD[v].toLowerCase()}
+            </span>
+          ))}
+        </div>
+      )}
+
       {error && (
         <p className="text-[13px] font-semibold text-fika-red mb-4 m-0">Could not load the data file ({error}). Re-run <code className="font-mono">npm run fred</code> and redeploy.</p>
       )}
@@ -187,6 +208,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="Is a recession starting?"
           subtitle="Three readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. The Baa spread is what investors demand to hold corporate risk over Treasuries; it widens when they start to fear defaults. When they move together, that is the signal worth taking seriously."
           panels={charts?.recession ?? []}
+          health={health?.recession}
           start={start}
           end={end}
           recessions={recessions}
@@ -197,6 +219,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="Are people buying big things?"
           subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does."
           panels={charts?.production ?? []}
+          health={health?.production}
           start={start}
           end={end}
           recessions={recessions}
@@ -206,6 +229,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="Is the labor market holding?"
           subtitle="Unemployment rises slowly, then fast. Payroll growth usually stalls first."
           panels={charts?.labor ?? []}
+          health={health?.labor}
           start={start}
           end={end}
           recessions={recessions}
@@ -216,6 +240,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="Where is inflation coming from?"
           subtitle="Headline CPI swings with food and energy; core CPI and core PCE show what sticks. The Fed's target is 2% on PCE."
           panels={charts?.inflation ?? []}
+          health={health?.inflation}
           start={start}
           end={end}
           recessions={recessions}
@@ -226,6 +251,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="What is housing doing?"
           subtitle="Mortgage rates set what buyers can afford. Permits are pulled before ground is broken, so they lead starts by a month or two. Prices are Case-Shiller: repeat sales of the same houses, so the line tracks the market rather than the mix of what happened to sell."
           panels={charts?.housing ?? []}
+          health={health?.housing}
           layout="row"
           start={start}
           end={end}
@@ -237,6 +263,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="Key Fed Data"
           subtitle="The Fed sets IORB, the rate it pays banks on their reserves, and the fed funds rate trades just below it. SOFR is the cost of borrowing overnight against Treasuries; when it rises above IORB, cash in the banking system is getting scarce. The balance sheet is how much the Fed holds, and it grows when the Fed buys bonds and shrinks as it lets them run off."
           panels={charts?.fed ?? []}
+          health={health?.fed}
           layout="row"
           start={start}
           end={end}
@@ -248,6 +275,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="Is policy tight or loose?"
           subtitle="Fed funds against core PCE inflation. The gap is the real policy rate: fed funds minus trailing core PCE. Judge tight or loose against neutral, which most estimates put a little under 1%, not against zero."
           panels={charts?.policy ?? []}
+          health={health?.policy}
           start={start}
           end={end}
           recessions={recessions}
@@ -258,6 +286,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           title="What is the yield curve saying?"
           subtitle="2-year and 10-year Treasury yields. When the 2-year sits above the 10-year the curve is inverted, which has preceded every recession since 1980."
           panels={charts?.curve ?? []}
+          health={health?.curve}
           start={start}
           end={end}
           recessions={recessions}
