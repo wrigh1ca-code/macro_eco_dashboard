@@ -184,23 +184,22 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
 
       <div className="grid lg:grid-cols-2 gap-4">
         <ChartCard
-          title="Is policy tight or loose?"
-          subtitle="Fed funds against core PCE inflation. The gap is the real policy rate: fed funds minus trailing core PCE. Judge tight or loose against neutral, which most estimates put a little under 1%, not against zero."
-          panels={charts?.policy ?? []}
+          title="Is a recession starting?"
+          subtitle="Three readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. The Baa spread is what investors demand to hold corporate risk over Treasuries; it widens when they start to fear defaults. When they move together, that is the signal worth taking seriously."
+          panels={charts?.recession ?? []}
           start={start}
           end={end}
           recessions={recessions}
-          legend={legendOf(['FEDFUNDS', 'COREPCE_YOY', 'REAL_RATE'])}
-          className="min-h-[360px]"
+          note="The Sahm rule and the probability are coincident, not leading: they tell you a recession has likely begun, not that one is coming. The spread is set daily in markets, so it often moves first."
+          className="min-h-[560px]"
         />
         <ChartCard
-          title="What is the yield curve saying?"
-          subtitle="2-year and 10-year Treasury yields. When the 2-year sits above the 10-year the curve is inverted, which has preceded every recession since 1980."
-          panels={charts?.curve ?? []}
+          title="Are people buying big things?"
+          subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does."
+          panels={charts?.production ?? []}
           start={start}
           end={end}
           recessions={recessions}
-          legend={[...legendOf(['DGS2', 'DGS10']), { name: 'Inverted', color: INVERSION_FILL, kind: 'swatch' as const }]}
           className="min-h-[360px]"
         />
         <ChartCard
@@ -224,23 +223,15 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           className="min-h-[360px]"
         />
         <ChartCard
-          title="Is a recession starting?"
-          subtitle="Three readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. The Baa spread is what investors demand to hold corporate risk over Treasuries; it widens when they start to fear defaults. When they move together, that is the signal worth taking seriously."
-          panels={charts?.recession ?? []}
+          title="What is housing doing?"
+          subtitle="Mortgage rates set what buyers can afford. Permits are pulled before ground is broken, so they lead starts by a month or two. Prices are Case-Shiller: repeat sales of the same houses, so the line tracks the market rather than the mix of what happened to sell."
+          panels={charts?.housing ?? []}
+          layout="row"
           start={start}
           end={end}
           recessions={recessions}
-          note="The Sahm rule and the probability are coincident, not leading: they tell you a recession has likely begun, not that one is coming. The spread is set daily in markets, so it often moves first."
-          className="min-h-[560px]"
-        />
-        <ChartCard
-          title="Are people buying big things?"
-          subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does."
-          panels={charts?.production ?? []}
-          start={start}
-          end={end}
-          recessions={recessions}
-          className="min-h-[360px]"
+          legend={[...legendOf(['MORTGAGE30US', 'PERMIT', 'HOUST'])]}
+          className="lg:col-span-2 min-h-[280px]"
         />
         <ChartCard
           title="Key Fed Data"
@@ -254,15 +245,24 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           className="lg:col-span-2 min-h-[280px]"
         />
         <ChartCard
-          title="What is housing doing?"
-          subtitle="Mortgage rates set what buyers can afford. Permits are pulled before ground is broken, so they lead starts by a month or two. Prices are Case-Shiller: repeat sales of the same houses, so the line tracks the market rather than the mix of what happened to sell."
-          panels={charts?.housing ?? []}
-          layout="row"
+          title="Is policy tight or loose?"
+          subtitle="Fed funds against core PCE inflation. The gap is the real policy rate: fed funds minus trailing core PCE. Judge tight or loose against neutral, which most estimates put a little under 1%, not against zero."
+          panels={charts?.policy ?? []}
           start={start}
           end={end}
           recessions={recessions}
-          legend={[...legendOf(['MORTGAGE30US', 'PERMIT', 'HOUST'])]}
-          className="lg:col-span-2 min-h-[280px]"
+          legend={legendOf(['FEDFUNDS', 'COREPCE_YOY', 'REAL_RATE'])}
+          className="min-h-[360px]"
+        />
+        <ChartCard
+          title="What is the yield curve saying?"
+          subtitle="2-year and 10-year Treasury yields. When the 2-year sits above the 10-year the curve is inverted, which has preceded every recession since 1980."
+          panels={charts?.curve ?? []}
+          start={start}
+          end={end}
+          recessions={recessions}
+          legend={[...legendOf(['DGS2', 'DGS10']), { name: 'Inverted', color: INVERSION_FILL, kind: 'swatch' as const }]}
+          className="min-h-[360px]"
         />
       </div>
 
