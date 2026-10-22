@@ -78,8 +78,6 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
       refLines: [{ v: 2, label: '2% target', dashed: true }],
     }];
     const conditions: PanelSpec[] = [
-      { key: 'mortgage', series: [S('MORTGAGE30US')], yFormat: AXIS.pct, caption: '30-year fixed mortgage rate' },
-      { key: 'baa', series: [S('BAA10Y')], yFormat: AXIS.pt, caption: 'Baa corporate spread over 10-year Treasury' },
       { key: 'walcl', series: [S('WALCL_T')], yFormat: AXIS.trillions, caption: 'Fed balance sheet, total assets' },
     ];
     const recession: PanelSpec[] = [
@@ -100,8 +98,10 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         caption: 'Smoothed probability the economy was in recession that month',
         flex: 2,
       },
+      { key: 'baa', series: [S('BAA10Y')], yFormat: AXIS.pt, caption: 'Baa corporate spread over 10-year Treasury', flex: 2 },
     ];
     const housing: PanelSpec[] = [
+      { key: 'mortgage', series: [S('MORTGAGE30US')], yFormat: AXIS.pct, caption: '30-year fixed mortgage rate' },
       { key: 'starts', series: [S('PERMIT'), S('HOUST')], yFormat: AXIS.units, caption: 'Permits and starts, annualized units' },
       { key: 'price', series: [S('HPI_YOY')], yFormat: AXIS.pct, includeZero: true, caption: 'Home prices vs a year earlier, Case-Shiller national' },
     ];
@@ -224,13 +224,13 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         />
         <ChartCard
           title="Is a recession starting?"
-          subtitle="Two independent readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. When both move together, that is the signal worth taking seriously."
+          subtitle="Three readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. The Baa spread is what investors demand to hold corporate risk over Treasuries; it widens when they start to fear defaults. When they move together, that is the signal worth taking seriously."
           panels={charts?.recession ?? []}
           start={start}
           end={end}
           recessions={recessions}
-          note="Both are coincident, not leading: they tell you a recession has likely begun, not that one is coming."
-          className="min-h-[360px]"
+          note="The Sahm rule and the probability are coincident, not leading: they tell you a recession has likely begun, not that one is coming. The spread is set daily in markets, so it often moves first."
+          className="min-h-[560px]"
         />
         <ChartCard
           title="Are people buying big things?"
@@ -243,7 +243,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         />
         <ChartCard
           title="How tight are financial conditions?"
-          subtitle="What borrowing actually costs, the premium investors demand to hold corporate risk, and the size of the Fed's balance sheet."
+          subtitle="The size of the Fed's balance sheet: it grows when the Fed buys bonds to hold rates down and shrinks as it lets them run off."
           panels={charts?.conditions ?? []}
           layout="row"
           start={start}
@@ -253,13 +253,13 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         />
         <ChartCard
           title="What is housing doing?"
-          subtitle="Permits are pulled before ground is broken, so they lead starts by a month or two. Prices are Case-Shiller: repeat sales of the same houses, so the line tracks the market rather than the mix of what happened to sell."
+          subtitle="Mortgage rates set what buyers can afford. Permits are pulled before ground is broken, so they lead starts by a month or two. Prices are Case-Shiller: repeat sales of the same houses, so the line tracks the market rather than the mix of what happened to sell."
           panels={charts?.housing ?? []}
           layout="row"
           start={start}
           end={end}
           recessions={recessions}
-          legend={[...legendOf(['PERMIT', 'HOUST'])]}
+          legend={[...legendOf(['MORTGAGE30US', 'PERMIT', 'HOUST'])]}
           className="lg:col-span-2 min-h-[280px]"
         />
       </div>
