@@ -11,6 +11,7 @@ export type Key =
   | 'CPI_YOY' | 'CORECPI_YOY' | 'COREPCE_YOY' | 'REAL_RATE'
   | 'UNRATE' | 'PAYROLL_CHG' | 'GDP'
   | 'MORTGAGE30US' | 'BAA10Y' | 'WALCL_T'
+  | 'EFFR' | 'IORB' | 'SOFR'
   | 'SAHM' | 'RECPROB'
   | 'PERMIT' | 'HOUST' | 'HPI_YOY'
   | 'DURABLES_YOY' | 'TOTALSA';
@@ -37,6 +38,9 @@ export const COLOR: Record<Key, string> = {
   MORTGAGE30US: '#0369A1',
   BAA10Y: '#C2410C',
   WALCL_T: '#64748B',
+  EFFR: '#2F6BFF',
+  IORB: '#111827',
+  SOFR: '#0D9488',
   SAHM: '#111827',
   RECPROB: '#B42318',
   PERMIT: '#0891B2',
@@ -70,6 +74,9 @@ export const NAME: Record<Key, string> = {
   MORTGAGE30US: '30-year mortgage rate',
   BAA10Y: 'Baa spread',
   WALCL_T: 'Fed balance sheet',
+  EFFR: 'Fed funds rate',
+  IORB: 'IORB',
+  SOFR: 'SOFR',
   SAHM: 'Sahm rule',
   RECPROB: 'Recession probability',
   PERMIT: 'Building permits',
@@ -95,6 +102,9 @@ export const FORMAT: Record<Key, (v: number) => string> = {
   MORTGAGE30US: v => pct(v, 2),
   BAA10Y: v => `${fixed(v, 2)} pt`,
   WALCL_T: v => trillions(v, 2),
+  EFFR: v => pct(v, 2),
+  IORB: v => pct(v, 2),
+  SOFR: v => pct(v, 2),
   SAHM: v => `${fixed(v, 2)} pt`,
   RECPROB: v => pct(v, 1),
   PERMIT: v => units(v),
@@ -154,6 +164,10 @@ export const USED_AS: Record<string, string> = {
   MORTGAGE30US: 'Mortgage rate, as published',
   BAA10Y: 'Credit spread, as published (Baa corporate yield − 10-year Treasury)',
   WALCL: 'Fed balance sheet, rescaled from millions to trillions of dollars',
+  EFFR: 'Fed funds rate, daily, as published (the Key Fed Data chart uses this daily series so it lines up with IORB and SOFR)',
+  IORB: 'Interest rate the Fed pays on bank reserves, as published (from July 29, 2021)',
+  IOER: 'Interest rate on excess reserves, the rate IORB replaced; shown as the same IORB line before July 29, 2021',
+  SOFR: 'Secured overnight financing rate, as published (from April 2018)',
   USREC: 'Recession shading on every chart (NBER peak-to-trough months)',
   SAHMREALTIME: 'Sahm rule, as published. The real-time variant: it uses the unemployment rate as it was known each month, not as later revised, so the line shows what the signal actually said at the time.',
   RECPROUSM156N: 'Smoothed recession probability, as published (Chauvet–Piger model of payrolls, industrial production, real income and manufacturing sales)',
