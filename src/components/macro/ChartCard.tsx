@@ -6,6 +6,8 @@ import { useCallback, useMemo, useRef, useState } from 'react';
 import { clip, indexNearest, type Freq, type Span } from './compute';
 import { dateLabel } from './format';
 import Panel, { type PanelSpec } from './Panel';
+import type { BoxHealth } from './health';
+import { CheckLine, Heart, InfoTip, TONE, WORD } from './HealthBadge';
 
 interface Props {
   title: string;
@@ -19,6 +21,7 @@ interface Props {
   legend?: { name: string; color: string; kind?: 'line' | 'swatch' }[];
   note?: string;
   className?: string;
+  health?: BoxHealth;
 }
 
 /** Observations per arrow-key press, so a daily series moves about a month. */
@@ -30,7 +33,7 @@ function firstOf(series: PanelSpec['series']): number {
   return f;
 }
 
-export default function ChartCard({ title, subtitle, panels, layout = 'stack', start, end, recessions, legend, note, className = '' }: Props) {
+export default function ChartCard({ title, subtitle, panels, layout = 'stack', start, end, recessions, legend, note, className = '', health }: Props) {
   const [hoverT, setHoverT] = useState<number | null>(null);
   const [pointer, setPointer] = useState<{ x: number; y: number; touch: boolean } | null>(null);
   const wrap = useRef<HTMLDivElement>(null);
@@ -127,10 +130,29 @@ export default function ChartCard({ title, subtitle, panels, layout = 'stack', s
   }
 
   return (
-    <section className={`flex flex-col rounded-xl border border-fika-border bg-white p-4 min-w-0 ${className}`}>
+    <section
+      className={`flex flex-col rounded-xl border border-fika-border bg-white p-4 min-w-0 ${className}`}
+      style={health ? { border: `7px solid ${TONE[health.verdict].strong}` } : undefined}
+    >
       <header className="mb-2">
-        <h2 className="font-grotesk text-[17px] font-bold leading-tight text-fika-text m-0 tracking-[-0.01em]">{title}</h2>
-        <p className="text-[12.5px] text-fika-secondary leading-snug mt-1 mb-0">{subtitle}</p>
+        <div className="flex items-start gap-3">
+          <div className="min-w-0 flex-1">
+            <h2 className="font-grotesk text-[17px] font-bold leading-tight text-fika-text m-0 tracking-[-0.01em]">
+              {title}
+              {health && <span className="ml-2 relative -top-[1px]"><InfoTip health={health} title={title} /></span>}
+            </h2>
+            {health && <CheckLine health={health} />}
+          </div>
+          {health && (
+            <div className="shrink-0 flex flex-col items-center gap-1 -mt-1 min-w-[64px]" title={WORD[health.verdict]}>
+              <Heart verdict={health.verdict} />
+              <span className="text-[10.5px] font-bold uppercase tracking-wider leading-none text-center" style={{ color: TONE[health.verdict].ink }}>
+                {health.verdict === 'none' ? 'No reading' : WORD[health.verdict]}
+              </span>
+            </div>
+          )}
+        </div>
+        <p className="text-[12.5px] text-fika-secondary leading-snug mt-2 mb-0">{subtitle}</p>
         {legend && legend.length > 0 && (
           <ul className="list-none p-0 m-0 mt-2 flex flex-wrap gap-x-4 gap-y-1">
             {legend.map(l => (
