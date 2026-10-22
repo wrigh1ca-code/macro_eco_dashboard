@@ -43,6 +43,11 @@ export function units(v: number, dp = 2): string {
   return `${sign}${Math.round(a)}k`;
 }
 
+/** A change in thousands of units, with its sign: "+52k", "−0.10M". */
+export function signedUnits(v: number, dp = 2): string {
+  return (v > 0 ? '+' : '') + units(v, dp);
+}
+
 /** A value already in millions of units: "16.2M". Vehicle sales. */
 export function millions(v: number, dp = 1): string {
   return `${fixed(v, dp)}M`;
