@@ -8,10 +8,18 @@
 //
 // Run it right before showing the dashboard:   npm run fred
 //
-// No API key. FRED's graph endpoint serves any public series as CSV, and the
-// series page carries the metadata (units, frequency, source) in its HTML. If
-// FRED ever changes that markup the FALLBACK table below keeps the manifest
-// complete; the script says so when it has to use it.
+// Two ways to reach FRED:
+//
+//   With FRED_API_KEY set (a free key from fredaccount.stlouisfed.org), it uses
+//   FRED's official API for both the data and the metadata. This is the reliable
+//   route; the GitHub workflow passes the key in from a repository secret.
+//
+//   Without a key, it falls back to FRED's graph endpoint, which serves any
+//   public series as CSV, and reads metadata from the series page's HTML. FRED
+//   sometimes answers automated requests there with a web page instead of data.
+//
+// Either way, if FRED's metadata can't be read the FALLBACK table below keeps
+// the manifest complete; the script says so when it has to use it.
 
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -32,6 +40,7 @@ const SERIES = [
   'UNRATE',
   'PAYEMS',
   'A191RL1Q225SBEA',
+  'GDPNOW',
   'MORTGAGE30US',
   'BAA10Y',
   'WALCL',
@@ -61,6 +70,7 @@ const FALLBACK = {
   UNRATE: { name: 'Unemployment Rate', units: 'Percent', frequency: 'Monthly', source: 'U.S. Bureau of Labor Statistics', release: 'Employment Situation' },
   PAYEMS: { name: 'All Employees, Total Nonfarm', units: 'Thousands of Persons', frequency: 'Monthly', source: 'U.S. Bureau of Labor Statistics', release: 'Employment Situation' },
   A191RL1Q225SBEA: { name: 'Real Gross Domestic Product', units: 'Percent Change from Preceding Period', frequency: 'Quarterly', source: 'U.S. Bureau of Economic Analysis', release: 'Gross Domestic Product' },
+  GDPNOW: { name: 'GDPNow', units: 'Percent Change at Annual Rate', frequency: 'Quarterly', source: 'Federal Reserve Bank of Atlanta', release: 'GDPNow' },
   MORTGAGE30US: { name: '30-Year Fixed Rate Mortgage Average in the United States', units: 'Percent', frequency: 'Weekly, Ending Thursday', source: 'Freddie Mac', release: 'Primary Mortgage Market Survey' },
   BAA10Y: { name: "Moody's Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity", units: 'Percent', frequency: 'Daily', source: 'Federal Reserve Bank of St. Louis', release: '' },
   WALCL: { name: 'Assets: Total Assets: Total Assets (Less Eliminations from Consolidation): Wednesday Level', units: 'Millions of U.S. Dollars', frequency: 'Weekly, As of Wednesday', source: 'Board of Governors of the Federal Reserve System (US)', release: 'H.4.1 Factors Affecting Reserve Balances' },
@@ -79,6 +89,13 @@ const FALLBACK = {
 };
 
 const csvUrl = id => `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${id}`;
+const API_KEY = (process.env.FRED_API_KEY ?? '').trim();
+const API = process.env.FRED_API_BASE ?? 'https://api.stlouisfed.org/fred';
+const apiUrl = (path, params) =>
+  `${API}/${path}?${new URLSearchParams({ ...params, api_key: API_KEY, file_type: 'json' })}`;
+// Never print the key: these logs are public on a public repository.
+const redact = s => String(s).replace(/api_key=[^&\s]*/g, 'api_key=***');
+const sleep = ms => new Promise(res => setTimeout(res, ms));
 const pageUrl = id => `https://fred.stlouisfed.org/series/${id}`;
 
 async function get(url, tries = 3) {
@@ -86,14 +103,68 @@ async function get(url, tries = 3) {
   for (let i = 0; i < tries; i++) {
     try {
       const r = await fetch(url, { headers: { 'user-agent': 'macro-eco-dashboard fetch (node)' } });
-      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      if (!r.ok) {
+        const body = (await r.text().catch(() => '')).slice(0, 300);
+        throw new Error(`HTTP ${r.status} ${body}`);
+      }
       return await r.text();
     } catch (e) {
       last = e;
-      await new Promise(res => setTimeout(res, 800 * (i + 1)));
+      await sleep(800 * (i + 1));
     }
   }
-  throw new Error(`${url}: ${last?.message ?? last}`);
+  throw new Error(redact(`${url}: ${last?.message ?? last}`));
+}
+
+async function getJson(url) {
+  await sleep(250); // FRED allows 120 API requests a minute
+  return JSON.parse(await get(url));
+}
+
+/** Data and metadata for one series from FRED's official API. */
+async function fromApi(id) {
+  const obs = (await getJson(apiUrl('series/observations', { series_id: id }))).observations ?? [];
+  // Written in the same shape as FRED's CSV download, so the saved files look the same either way.
+  const csv = ['observation_date,' + id, ...obs.map(o => `${o.date},${o.value === '.' ? '' : o.value}`)].join('\n') + '\n';
+  const meta = {};
+  try {
+    const s = (await getJson(apiUrl('series', { series_id: id }))).seriess?.[0] ?? {};
+    meta.name = s.title ?? null;
+    meta.units = s.units ?? null;
+    meta.frequency = s.frequency ?? null;
+    meta.updated = s.last_updated ?? null;
+    const rel = (await getJson(apiUrl('series/release', { series_id: id }))).releases?.[0];
+    if (rel) {
+      meta.release = rel.name ?? null;
+      meta.releaseUrl = rel.link ?? null;
+      const src = (await getJson(apiUrl('release/sources', { release_id: rel.id }))).sources?.[0];
+      if (src) {
+        meta.source = src.name ?? null;
+        meta.sourceUrl = src.link ?? null;
+      }
+    }
+  } catch (e) {
+    console.warn(`\n  metadata lookup failed (${redact(e.message)}); using fallback metadata`);
+  }
+  return { csv, meta };
+}
+
+/** Data from the graph endpoint and metadata from the series page (no key needed). */
+async function fromGraph(id) {
+  const csv = await get(csvUrl(id));
+  if (csv.trimStart().startsWith('<')) {
+    throw new Error(
+      `${id}: FRED sent back a web page instead of data. It does this to automated requests at times. ` +
+      'Set FRED_API_KEY (a free key from fredaccount.stlouisfed.org) to use the official API instead.',
+    );
+  }
+  let meta = {};
+  try {
+    meta = metaFromPage(id, await get(pageUrl(id)));
+  } catch (e) {
+    console.warn(`\n  series page failed (${e.message}); using fallback metadata`);
+  }
+  return { csv, meta };
 }
 
 const clean = s => s.replace(/<[^>]+>/g, ' ').replace(/&nbsp;/g, ' ').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
@@ -144,19 +215,15 @@ const data = {};
 const files = [];
 let usedFallback = 0;
 
+console.log(API_KEY ? 'Using the FRED API (FRED_API_KEY is set)\n' : 'No FRED_API_KEY set: using the graph download\n');
+
 for (const id of SERIES) {
   process.stdout.write(`${id.padEnd(16)}`);
-  const csv = await get(csvUrl(id));
+  const { csv, meta } = API_KEY ? await fromApi(id) : await fromGraph(id);
   const parsed = parseCsv(id, csv);
   if (parsed.dates.length === 0) throw new Error(`${id}: no observations`);
   files.push([join(OUT, `${id}.csv`), csv]);
 
-  let meta = {};
-  try {
-    meta = metaFromPage(id, await get(pageUrl(id)));
-  } catch (e) {
-    console.warn(`\n  series page failed (${e.message}); using fallback metadata`);
-  }
   const fb = FALLBACK[id] ?? {};
   const pick = k => {
     if (meta[k]) return meta[k];
