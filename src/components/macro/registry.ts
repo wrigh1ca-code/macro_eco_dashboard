@@ -3,13 +3,13 @@
 // data file can't know: colours, formats and the plain-language framing.
 
 import type { Freq } from './compute';
-import { fixed, jobs, millions, pct, signedPt, trillions, units } from './format';
+import { fixed, jobs, millions, pct, signedPt, signedUnits, trillions, units } from './format';
 
 /** Keys of the series the charts draw, raw and derived. */
 export type Key =
   | 'FEDFUNDS' | 'DGS2' | 'DGS10' | 'T10Y2Y'
   | 'CPI_YOY' | 'CORECPI_YOY' | 'COREPCE_YOY' | 'REAL_RATE'
-  | 'UNRATE' | 'PAYROLL_CHG' | 'GDP'
+  | 'UNRATE' | 'PAYROLL_CHG' | 'GDP' | 'GDPNOW'
   | 'MORTGAGE30US' | 'BAA10Y' | 'WALCL_T'
   | 'EFFR' | 'IORB' | 'SOFR'
   | 'SAHM' | 'RECPROB'
@@ -35,6 +35,7 @@ export const COLOR: Record<Key, string> = {
   UNRATE: '#16A34A',
   PAYROLL_CHG: '#16A34A',
   GDP: '#475467',
+  GDPNOW: '#475467',
   MORTGAGE30US: '#0369A1',
   BAA10Y: '#C2410C',
   WALCL_T: '#64748B',
@@ -71,6 +72,7 @@ export const NAME: Record<Key, string> = {
   UNRATE: 'Unemployment rate',
   PAYROLL_CHG: 'Payroll change',
   GDP: 'Real GDP growth',
+  GDPNOW: 'GDPNow',
   MORTGAGE30US: '30-year mortgage rate',
   BAA10Y: 'Baa spread',
   WALCL_T: 'Fed balance sheet',
@@ -99,6 +101,7 @@ export const FORMAT: Record<Key, (v: number) => string> = {
   UNRATE: v => pct(v, 1),
   PAYROLL_CHG: v => jobs(v),
   GDP: v => pct(v, 1),
+  GDPNOW: v => pct(v, 1),
   MORTGAGE30US: v => pct(v, 2),
   BAA10Y: v => `${fixed(v, 2)} pt`,
   WALCL_T: v => trillions(v, 2),
@@ -135,12 +138,12 @@ export interface TileSpec {
 }
 
 export const TILES: TileSpec[] = [
+  { key: 'COREPCE_YOY', label: 'Core PCE inflation', qualifier: "Fed's preferred gauge, YoY", freq: 'monthly', delta: v => signedPt(v, 1) },
   { key: 'FEDFUNDS', label: 'Fed funds rate', qualifier: 'effective, monthly average', freq: 'monthly', delta: v => signedPt(v, 2) },
   { key: 'DGS10', label: '10-year Treasury', qualifier: 'constant maturity yield', freq: 'daily', delta: v => signedPt(v, 2) },
-  { key: 'CPI_YOY', label: 'CPI inflation', qualifier: 'all items, year over year', freq: 'monthly', delta: v => signedPt(v, 1) },
-  { key: 'COREPCE_YOY', label: 'Core PCE inflation', qualifier: "Fed's preferred gauge, YoY", freq: 'monthly', delta: v => signedPt(v, 1) },
   { key: 'UNRATE', label: 'Unemployment rate', qualifier: 'U-3, seasonally adjusted', freq: 'monthly', delta: v => signedPt(v, 1) },
-  { key: 'GDP', label: 'Real GDP growth', qualifier: 'quarterly, annualized', freq: 'quarterly', delta: v => signedPt(v, 1) },
+  { key: 'HOUST', label: 'Housing starts', qualifier: 'annualized units, monthly', freq: 'monthly', delta: v => signedUnits(v) },
+  { key: 'GDPNOW', label: 'GDPNow', qualifier: 'Atlanta Fed nowcast, annualized', freq: 'quarterly', delta: v => signedPt(v, 1) },
 ];
 
 /** Years of history each tile's sparkline shows, whatever the chart window is. */
@@ -160,7 +163,8 @@ export const USED_AS: Record<string, string> = {
   PCEPILFE: 'Core PCE inflation = % change vs a year earlier; real policy rate = fed funds − this',
   UNRATE: 'Unemployment rate, as published (October 2025 was never published)',
   PAYEMS: 'Payroll change = month-over-month difference, thousands of jobs',
-  A191RL1Q225SBEA: 'Real GDP growth, as published (quarterly, seasonally adjusted annual rate)',
+  A191RL1Q225SBEA: 'Real GDP growth, as published (quarterly, seasonally adjusted annual rate). Not currently shown on the page; the GDPNow tile replaced it.',
+  GDPNOW: 'GDPNow tile: the Atlanta Fed\u2019s running estimate of real GDP growth for the current quarter, revised as data arrive. Past quarters hold the last estimate made before the official GDP release.',
   MORTGAGE30US: 'Mortgage rate, as published',
   BAA10Y: 'Credit spread, as published (Baa corporate yield − 10-year Treasury)',
   WALCL: 'Fed balance sheet, rescaled from millions to trillions of dollars',
@@ -172,7 +176,7 @@ export const USED_AS: Record<string, string> = {
   SAHMREALTIME: 'Sahm rule, as published. The real-time variant: it uses the unemployment rate as it was known each month, not as later revised, so the line shows what the signal actually said at the time.',
   RECPROUSM156N: 'Smoothed recession probability, as published (Chauvet–Piger model of payrolls, industrial production, real income and manufacturing sales)',
   PERMIT: 'Building permits, as published (seasonally adjusted annual rate)',
-  HOUST: 'Housing starts, as published (seasonally adjusted annual rate)',
+  HOUST: 'Housing starts, as published (seasonally adjusted annual rate); also the Housing starts tile',
   CSUSHPINSA: 'Home-price growth = % change vs the same month a year earlier, from the Case-Shiller national index. Repeat sales of the same houses, so it is not distorted by the mix of what happens to sell. Index level itself (Jan 2000 = 100) is not shown. © S&P Dow Jones Indices LLC; reprinted with permission.',
   ADXTNO: 'Durable goods orders excluding transportation = % change vs the same month a year earlier, from the published dollar level. Transportation is excluded because a single aircraft order swings the headline.',
   TOTALSA: 'Total vehicle sales, as published (seasonally adjusted annual rate, millions of units)',
