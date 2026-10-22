@@ -54,6 +54,12 @@ export function derive(b: Bundle): MacroData {
     }
     return fromBundle(e);
   };
+  // Series added after the first version: an empty line until the next data refresh brings them in.
+  const optional = (id: string): Series => (b.data[id] ? raw(id) : []);
+  const iorb = optional('IORB');
+  const ioer = optional('IOER');
+  // IOER was renamed IORB on July 29, 2021; join them into one line.
+  const iorbFull = iorb.length ? [...ioer.filter(o => o.t < iorb[0].t), ...iorb] : ioer;
   const freqOf = (id: string): Freq => normFreq(b.series.find(s => s.id === id)?.frequency);
 
   const fedfunds = raw('FEDFUNDS');
@@ -74,6 +80,9 @@ export function derive(b: Bundle): MacroData {
     MORTGAGE30US: raw('MORTGAGE30US'),
     BAA10Y: raw('BAA10Y'),
     WALCL_T: scale(raw('WALCL'), 1e-6),
+    EFFR: optional('EFFR'),
+    IORB: iorbFull,
+    SOFR: optional('SOFR'),
     SAHM: raw('SAHMREALTIME'),
     RECPROB: raw('RECPROUSM156N'),
     PERMIT: raw('PERMIT'),
@@ -98,6 +107,9 @@ export function derive(b: Bundle): MacroData {
     MORTGAGE30US: freqOf('MORTGAGE30US'),
     BAA10Y: freqOf('BAA10Y'),
     WALCL_T: freqOf('WALCL'),
+    EFFR: 'daily',
+    IORB: 'daily',
+    SOFR: 'daily',
     SAHM: freqOf('SAHMREALTIME'),
     RECPROB: freqOf('RECPROUSM156N'),
     PERMIT: freqOf('PERMIT'),
