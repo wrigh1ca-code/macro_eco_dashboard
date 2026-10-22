@@ -77,7 +77,8 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
       includeZero: true,
       refLines: [{ v: 2, label: '2% target', dashed: true }],
     }];
-    const conditions: PanelSpec[] = [
+    const fed: PanelSpec[] = [
+      { key: 'fedrates', series: [S('EFFR'), S('IORB'), S('SOFR')], yFormat: AXIS.pct, includeZero: true, caption: 'Fed funds, IORB and SOFR' },
       { key: 'walcl', series: [S('WALCL_T')], yFormat: AXIS.trillions, caption: 'Fed balance sheet, total assets' },
     ];
     const recession: PanelSpec[] = [
@@ -122,7 +123,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         flex: 2,
       },
     ];
-    return { policy, curve, labor, inflation, conditions, recession, housing, production };
+    return { policy, curve, labor, inflation, fed, recession, housing, production };
   }, [data]);
 
   // The payroll note only earns its line when a bar in the window is actually cut.
@@ -242,13 +243,14 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           className="min-h-[360px]"
         />
         <ChartCard
-          title="How tight are financial conditions?"
-          subtitle="The size of the Fed's balance sheet: it grows when the Fed buys bonds to hold rates down and shrinks as it lets them run off."
-          panels={charts?.conditions ?? []}
+          title="Key Fed Data"
+          subtitle="The Fed sets IORB, the rate it pays banks on their reserves, and the fed funds rate trades just below it. SOFR is the cost of borrowing overnight against Treasuries; when it rises above IORB, cash in the banking system is getting scarce. The balance sheet is how much the Fed holds, and it grows when the Fed buys bonds and shrinks as it lets them run off."
+          panels={charts?.fed ?? []}
           layout="row"
           start={start}
           end={end}
           recessions={recessions}
+          legend={legendOf(['EFFR', 'IORB', 'SOFR'])}
           className="lg:col-span-2 min-h-[280px]"
         />
         <ChartCard
