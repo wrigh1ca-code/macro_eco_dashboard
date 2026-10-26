@@ -146,6 +146,7 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
   // Big purchases
   const dur = latest(S.DURABLES_YOY);
   const veh = avg3Yoy(S.TOTALSA);
+  const cfnai = latest(S.CFNAI_MA3);
   const production = box([
     check('Durable goods orders vs a year ago', dur, v => spct(v), above(dur, 2, -3),
       'up more than 2%', '−3% to +2%', 'down more than 3%',
@@ -153,6 +154,10 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
     check('Vehicle sales, 3-month avg vs a year ago', veh, v => spct(v), above(veh, -5, -10),
       'down less than 5%', 'down 5% to 10%', 'down more than 10%',
       'Monthly sales are noisy; drops past 10% preceded 5 of the last 6 recessions.'),
+    check('Chicago Fed activity index, 3-month average', cfnai, v => (v > 0 ? '+' : v < 0 ? MINUS : '') + Math.abs(v).toFixed(2),
+      cfnai === null ? null : cfnai > -0.35 ? 'green' : cfnai >= -0.7 ? 'yellow' : 'red',
+      'above \u22120.35', '\u22120.70 to \u22120.35', 'below \u22120.70',
+      'Zero is trend growth; the Chicago Fed says readings below \u22120.70 have come with a rising chance of recession.'),
   ]);
 
   // Labor
@@ -205,6 +210,12 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
   // Consumers
   const sent = (() => { const x = S.UMCSENT; return x && x.length >= 3 ? (x[x.length - 1].v + x[x.length - 2].v + x[x.length - 3].v) / 3 : null; })();
   const dsr = latest(S.TDSP);
+  const realRetail = (() => {
+    const r = S.RETAIL_YOY ? last(S.RETAIL_YOY) : undefined;
+    if (!r) return null;
+    const c = S.CPI_YOY?.find(o => monthKey(o.t) === monthKey(r.t));
+    return c ? r.v - c.v : null;
+  })();
   const consumer = box([
     check('Consumer sentiment, 3-month average', sent, v => v.toFixed(1), sent === null ? null : sent >= 80 ? 'green' : sent >= 65 ? 'yellow' : 'red',
       '80 or higher', '65 to 80', 'under 65',
@@ -212,6 +223,9 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
     check('Debt service ratio', dsr, v => pct(v, 2), below(dsr, 12.5, 14),
       'under 12.5% of income', '12.5% to 14%', 'over 14%',
       'It ran 15% to 16% before the 2008 crisis and has held near 11% to 12% since 2012.'),
+    check('Retail sales growth after inflation', realRetail, v => spt(v, 1), realRetail === null ? null : realRetail > 1 ? 'green' : realRetail >= -1 ? 'yellow' : 'red',
+      'more than 1 pt above CPI inflation', 'within 1 pt of CPI inflation', 'more than 1 pt below CPI inflation',
+      'Retail sales growth vs a year ago minus CPI inflation over the same year: are shoppers buying more, or just paying more?'),
   ]);
 
   // Policy
