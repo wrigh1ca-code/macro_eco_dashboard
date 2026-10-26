@@ -1,10 +1,10 @@
-# Refresh the FRED data every Monday morning and commit it. If the repo is
+# Refresh the FRED data every morning and commit it. If the repo is
 # connected to Vercel (or Netlify, or GitHub Pages), the push redeploys the site.
 name: Refresh FRED data
 
 on:
   schedule:
-    - cron: '0 12 * * 1' # Mondays 12:00 UTC, after Friday's jobs report
+    - cron: '17 11 * * *' # every day, 11:17 UTC (early morning in the U.S.), after FRED posts the previous day's data
   workflow_dispatch:
 
 permissions:
@@ -19,6 +19,10 @@ jobs:
         with:
           node-version: 22
       - run: node scripts/fetch-fred.mjs
+        env:
+          # Free key from fredaccount.stlouisfed.org, saved under Settings > Secrets and variables > Actions.
+          # Without it the script falls back to FRED's graph download, which sometimes refuses automated requests.
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
       - name: Commit and push if anything changed
         run: |
           git config user.name "github-actions[bot]"
