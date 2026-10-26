@@ -112,6 +112,18 @@ export function subtractByMonth(a: Series, b: Series): Series {
   return out;
 }
 
+/** Trailing average of the last n observations (the first n-1 are dropped). */
+export function movingAverage(s: Series, n: number): Series {
+  const out: Series = [];
+  let sum = 0;
+  for (let i = 0; i < s.length; i++) {
+    sum += s[i].v;
+    if (i >= n) sum -= s[i - n].v;
+    if (i >= n - 1) out.push({ t: s[i].t, v: sum / n });
+  }
+  return out;
+}
+
 export function scale(s: Series, k: number): Series {
   return s.map(o => ({ t: o.t, v: o.v * k }));
 }
