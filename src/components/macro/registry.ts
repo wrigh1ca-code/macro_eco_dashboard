@@ -7,11 +7,11 @@ import { fixed, jobs, millions, pct, signedPt, signedUnits, trillions, units } f
 
 /** Keys of the series the charts draw, raw and derived. */
 export type Key =
-  | 'FEDFUNDS' | 'DGS2' | 'DGS10' | 'T10Y2Y'
-  | 'CPI_YOY' | 'CORECPI_YOY' | 'COREPCE_YOY' | 'REAL_RATE'
+  | 'FEDFUNDS' | 'IORB' | 'SOFR' | 'DGS2' | 'DGS10' | 'T10Y2Y'
+  | 'CPI_YOY' | 'CORECPI_YOY' | 'COREPCE_YOY' | 'PCE_YOY' | 'REAL_RATE'
   | 'UNRATE' | 'PAYROLL_CHG' | 'GDP' | 'GDPNOW'
-  | 'MORTGAGE30US' | 'BAA10Y' | 'WALCL_T'
-  | 'EFFR' | 'IORB' | 'SOFR'
+  | 'MORTGAGE30US' | 'BAA10Y'
+  | 'UMCSENT' | 'TDSP'
   | 'SAHM' | 'RECPROB'
   | 'PERMIT' | 'HOUST' | 'HPI_YOY'
   | 'DURABLES_YOY' | 'TOTALSA';
@@ -25,12 +25,15 @@ export type Key =
  */
 export const COLOR: Record<Key, string> = {
   FEDFUNDS: '#2F6BFF',
+  IORB: '#7C3AED',
+  SOFR: '#0D9488',
   DGS10: '#1D4ED8',
   DGS2: '#0D9488',
   T10Y2Y: '#111827',
   CPI_YOY: '#D97706',
   CORECPI_YOY: '#7C3AED',
   COREPCE_YOY: '#E11D48',
+  PCE_YOY: '#0891B2',
   REAL_RATE: '#111827',
   UNRATE: '#16A34A',
   PAYROLL_CHG: '#16A34A',
@@ -38,10 +41,8 @@ export const COLOR: Record<Key, string> = {
   GDPNOW: '#475467',
   MORTGAGE30US: '#0369A1',
   BAA10Y: '#C2410C',
-  WALCL_T: '#64748B',
-  EFFR: '#2F6BFF',
-  IORB: '#111827',
-  SOFR: '#0D9488',
+  UMCSENT: '#C026D3',
+  TDSP: '#0F766E',
   SAHM: '#111827',
   RECPROB: '#B42318',
   PERMIT: '#0891B2',
@@ -62,12 +63,15 @@ export const INVERSION_STROKE = '#E11D48';
 /** Short names used in legends, tooltips and tiles. */
 export const NAME: Record<Key, string> = {
   FEDFUNDS: 'Fed funds rate',
+  IORB: 'IORB',
+  SOFR: 'SOFR',
   DGS2: '2-year Treasury',
   DGS10: '10-year Treasury',
   T10Y2Y: '10-year minus 2-year',
   CPI_YOY: 'Headline CPI',
   CORECPI_YOY: 'Core CPI',
   COREPCE_YOY: 'Core PCE',
+  PCE_YOY: 'Headline PCE',
   REAL_RATE: 'Real policy rate',
   UNRATE: 'Unemployment rate',
   PAYROLL_CHG: 'Payroll change',
@@ -75,10 +79,8 @@ export const NAME: Record<Key, string> = {
   GDPNOW: 'GDPNow',
   MORTGAGE30US: '30-year mortgage rate',
   BAA10Y: 'Baa spread',
-  WALCL_T: 'Fed balance sheet',
-  EFFR: 'Fed funds rate',
-  IORB: 'IORB',
-  SOFR: 'SOFR',
+  UMCSENT: 'Consumer sentiment',
+  TDSP: 'Debt service ratio',
   SAHM: 'Sahm rule',
   RECPROB: 'Recession probability',
   PERMIT: 'Building permits',
@@ -91,12 +93,15 @@ export const NAME: Record<Key, string> = {
 /** Rates read as percents; spreads and the real rate read as percentage points. */
 export const FORMAT: Record<Key, (v: number) => string> = {
   FEDFUNDS: v => pct(v, 2),
+  IORB: v => pct(v, 2),
+  SOFR: v => pct(v, 2),
   DGS2: v => pct(v, 2),
   DGS10: v => pct(v, 2),
   T10Y2Y: v => signedPt(v, 2),
   CPI_YOY: v => pct(v, 1),
   CORECPI_YOY: v => pct(v, 1),
   COREPCE_YOY: v => pct(v, 1),
+  PCE_YOY: v => pct(v, 1),
   REAL_RATE: v => signedPt(v, 2),
   UNRATE: v => pct(v, 1),
   PAYROLL_CHG: v => jobs(v),
@@ -104,10 +109,8 @@ export const FORMAT: Record<Key, (v: number) => string> = {
   GDPNOW: v => pct(v, 1),
   MORTGAGE30US: v => pct(v, 2),
   BAA10Y: v => `${fixed(v, 2)} pt`,
-  WALCL_T: v => trillions(v, 2),
-  EFFR: v => pct(v, 2),
-  IORB: v => pct(v, 2),
-  SOFR: v => pct(v, 2),
+  UMCSENT: v => fixed(v, 1),
+  TDSP: v => pct(v, 2),
   SAHM: v => `${fixed(v, 2)} pt`,
   RECPROB: v => pct(v, 1),
   PERMIT: v => units(v),
@@ -125,6 +128,7 @@ export const AXIS = {
   trillions: (v: number) => trillions(v, Number.isInteger(v) ? 0 : 1),
   units: (v: number) => units(v, 1),
   millions: (v: number) => millions(v, 0),
+  index: (v: number) => String(v),
 };
 
 export interface TileSpec {
@@ -155,23 +159,22 @@ export const PAYROLL_CLAMP = 1000;
 /** How each FRED series is used, for the Data & sources table. */
 export const USED_AS: Record<string, string> = {
   FEDFUNDS: 'Fed funds rate, as published',
+  IORB: 'Interest rate the Fed pays banks on their reserves, as published (from July 29, 2021)',
+  IOER: 'Interest rate on excess reserves, the rate IORB replaced; drawn as the same IORB line before July 29, 2021',
+  SOFR: 'Secured overnight financing rate, as published (from April 2018)',
   DGS2: '2-year yield, as published',
   DGS10: '10-year yield, as published',
   T10Y2Y: 'Curve spread, as published (FRED computes 10y − 2y); inverted-curve shading is every stretch below zero',
   CPIAUCSL: 'Headline CPI inflation = % change vs the same month a year earlier, from the seasonally adjusted index (BLS headlines use the unadjusted index, which can differ by a tenth). BLS never published October 2025, so that month is blank.',
   CPILFESL: 'Core CPI inflation = % change vs the same month a year earlier, from the seasonally adjusted index. October 2025 was never published.',
   PCEPILFE: 'Core PCE inflation = % change vs a year earlier; real policy rate = fed funds − this',
+  PCEPI: 'Headline PCE inflation = % change vs the same month a year earlier (food and energy included)',
   UNRATE: 'Unemployment rate, as published (October 2025 was never published)',
   PAYEMS: 'Payroll change = month-over-month difference, thousands of jobs',
   A191RL1Q225SBEA: 'Real GDP growth, as published (quarterly, seasonally adjusted annual rate). Not currently shown on the page; the GDPNow tile replaced it.',
   GDPNOW: 'GDPNow tile: the Atlanta Fed\u2019s running estimate of real GDP growth for the current quarter, revised as data arrive. Past quarters hold the last estimate made before the official GDP release.',
   MORTGAGE30US: 'Mortgage rate, as published',
   BAA10Y: 'Credit spread, as published (Baa corporate yield − 10-year Treasury)',
-  WALCL: 'Fed balance sheet, rescaled from millions to trillions of dollars',
-  EFFR: 'Fed funds rate, daily, as published (the Key Fed Data chart uses this daily series so it lines up with IORB and SOFR)',
-  IORB: 'Interest rate the Fed pays on bank reserves, as published (from July 29, 2021)',
-  IOER: 'Interest rate on excess reserves, the rate IORB replaced; shown as the same IORB line before July 29, 2021',
-  SOFR: 'Secured overnight financing rate, as published (from April 2018)',
   USREC: 'Recession shading on every chart (NBER peak-to-trough months)',
   SAHMREALTIME: 'Sahm rule, as published. The real-time variant: it uses the unemployment rate as it was known each month, not as later revised, so the line shows what the signal actually said at the time.',
   RECPROUSM156N: 'Smoothed recession probability, as published (Chauvet–Piger model of payrolls, industrial production, real income and manufacturing sales)',
@@ -180,6 +183,8 @@ export const USED_AS: Record<string, string> = {
   CSUSHPINSA: 'Home-price growth = % change vs the same month a year earlier, from the Case-Shiller national index. Repeat sales of the same houses, so it is not distorted by the mix of what happens to sell. Index level itself (Jan 2000 = 100) is not shown. © S&P Dow Jones Indices LLC; reprinted with permission.',
   ADXTNO: 'Durable goods orders excluding transportation = % change vs the same month a year earlier, from the published dollar level. Transportation is excluded because a single aircraft order swings the headline.',
   TOTALSA: 'Total vehicle sales, as published (seasonally adjusted annual rate, millions of units)',
+  UMCSENT: 'Consumer sentiment, as published. FRED posts it one month after the University of Michigan releases it, at the University\u2019s request; readings before 1978 are quarterly or less. © University of Michigan.',
+  TDSP: 'Debt service ratio, as published: required payments on mortgages and consumer debt as a share of after-tax income (quarterly, from 2005)',
 };
 
 export const RANGES: { label: string; years: number | null }[] = [
