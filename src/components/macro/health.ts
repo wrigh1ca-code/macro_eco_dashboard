@@ -10,7 +10,7 @@ import type { Key } from './registry';
 
 export type Light = 'green' | 'yellow' | 'red';
 export type Verdict = 'good' | 'mixed' | 'bad' | 'none';
-export type BoxId = 'recession' | 'production' | 'labor' | 'inflation' | 'housing' | 'fed' | 'policy' | 'curve';
+export type BoxId = 'recession' | 'production' | 'labor' | 'inflation' | 'housing' | 'consumer' | 'policy' | 'curve';
 
 export interface CheckResult {
   name: string;
@@ -83,7 +83,7 @@ function avg3Yoy(s: Series | undefined): number | null {
   return 100 * (a / b - 1);
 }
 
-/** Average over the last `n` observations of a minus b, matching b by date. */
+/** Average over the last `n` observations of a minus b, matching b by date (unused for now, kept for future spread checks). */
 function avgGap(a: Series | undefined, b: Series | undefined, n: number): number | null {
   if (!a || !b || !a.length || !b.length) return null;
   const tail = a.slice(-n);
@@ -202,25 +202,16 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
       'Steady gains are healthy; falling prices or a bubble are not.'),
   ]);
 
-  // Fed plumbing
-  const sofrGap = avgGap(S.SOFR, S.IORB, 20);
-  const ffGap = avgGap(S.EFFR, S.IORB, 20);
-  const wal = (() => {
-    const s = S.WALCL_T;
-    const now = s ? last(s) : undefined;
-    const then = now ? atOrBefore(s, now.t - 91 * DAY) : undefined;
-    return now && then ? 100 * (now.v / then.v - 1) : null;
-  })();
-  const fed = box([
-    check('SOFR minus IORB, 20-day average', sofrGap, v => spt(v), sofrGap === null ? null : sofrGap <= 0 ? 'green' : sofrGap <= 0.1 ? 'yellow' : 'red',
-      'at or below 0', '0 to +0.10 pt', 'above +0.10 pt',
-      'When overnight lending costs more than the Fed pays on reserves, cash is getting scarce.'),
-    check('Fed funds minus IORB, 20-day average', ffGap, v => spt(v), ffGap === null ? null : ffGap <= -0.05 ? 'green' : ffGap <= 0 ? 'yellow' : 'red',
-      '−0.05 pt or lower', '−0.05 to 0 pt', 'above 0',
-      'Fed funds normally trades just under IORB; rising above it signals strain.'),
-    check('Balance sheet change over 13 weeks', wal, v => spct(v), wal === null ? null : Math.abs(wal) <= 3 ? 'green' : wal > 8 ? 'red' : 'yellow',
-      'within ±3%', '±3% to 8%', 'up more than 8%',
-      'A sudden jump usually means emergency lending, as in 2020 and 2023.'),
+  // Consumers
+  const sent = (() => { const x = S.UMCSENT; return x && x.length >= 3 ? (x[x.length - 1].v + x[x.length - 2].v + x[x.length - 3].v) / 3 : null; })();
+  const dsr = latest(S.TDSP);
+  const consumer = box([
+    check('Consumer sentiment, 3-month average', sent, v => v.toFixed(1), sent === null ? null : sent >= 80 ? 'green' : sent >= 65 ? 'yellow' : 'red',
+      '80 or higher', '65 to 80', 'under 65',
+      'The long-run average since 1978 is about 84; every recession since then began with the index above 65.'),
+    check('Debt service ratio', dsr, v => pct(v, 2), below(dsr, 12.5, 14),
+      'under 12.5% of income', '12.5% to 14%', 'over 14%',
+      'It ran 15% to 16% before the 2008 crisis and has held near 11% to 12% since 2012.'),
   ]);
 
   // Policy
@@ -256,5 +247,5 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
       'A fast rise in long rates lifts borrowing costs across the economy.'),
   ]);
 
-  return { recession, production, labor, inflation, housing, fed, policy, curve };
+  return { recession, production, labor, inflation, housing, consumer, policy, curve };
 }
