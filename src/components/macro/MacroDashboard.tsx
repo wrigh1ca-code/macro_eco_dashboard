@@ -42,7 +42,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
     const inversion = [{ spans: data.inversions, fill: INVERSION_BAND }];
     const policy: PanelSpec[] = [{
       key: 'policy',
-      series: [S('FEDFUNDS'), S('IORB'), S('SOFR'), S('COREPCE_YOY'), S('REAL_RATE')],
+      series: [S('IORB'), S('FEDFUNDS'), S('SOFR'), S('ONRRP'), S('COREPCE_YOY')],
       yFormat: AXIS.pct,
       includeZero: true,
     }];
@@ -82,6 +82,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
     const consumer: PanelSpec[] = [
       { key: 'sentiment', series: [S('UMCSENT')], yFormat: AXIS.index, caption: 'University of Michigan consumer sentiment' },
       { key: 'dsr', series: [S('TDSP')], yFormat: AXIS.pct, caption: 'Household debt service payments, % of disposable income' },
+      { key: 'retail', series: [S('RETAIL_YOY')], yFormat: AXIS.pct, includeZero: true, clampAbs: 25, caption: 'Advance retail sales vs a year earlier' },
     ];
     const recession: PanelSpec[] = [
       {
@@ -122,6 +123,16 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         series: [S('TOTALSA')],
         yFormat: AXIS.millions,
         caption: 'Total vehicle sales, annualized',
+        flex: 1,
+      },
+      {
+        key: 'cfnai',
+        series: [S('CFNAI'), S('CFNAI_MA3')],
+        yFormat: AXIS.signed,
+        includeZero: true,
+        clampAbs: 3,
+        refLines: [{ v: -0.7, label: '−0.70', dashed: true }],
+        caption: 'Chicago Fed activity index: light = monthly, dark = 3-month average',
         flex: 1,
       },
     ];
@@ -235,16 +246,17 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           end={end}
           recessions={recessions}
           note="The Sahm rule and the probability are coincident, not leading: they tell you a recession has likely begun, not that one is coming. The spread is set daily in markets, so it often moves first."
-          className="min-h-[880px]"
+          className="min-h-[910px]"
         />
         <ChartCard
-          title="How is Big-Ticket Spending?"
-          subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does."
+          title="How is Manufacturing and Big-Ticket Spending Looking?"
+          subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does. The Chicago Fed National Activity Index rolls 85 monthly indicators into one number: zero is trend growth, and a 3-month average below −0.70 has signaled recession."
           panels={charts?.production ?? []}
           health={health?.production}
           start={start}
           end={end}
           recessions={recessions}
+          note={charts && data && data.series.CFNAI.some(o => Math.abs(o.v) > 3) ? 'The 2020 swings in the activity index (as low as −18) are cut off at the chart edge so the rest of the history stays readable; hover for exact values.' : undefined}
           className="min-h-[360px]"
         />
         <ChartCard
@@ -261,24 +273,24 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         />
         <ChartCard
           title="How Are Consumers Doing?"
-          subtitle="How households feel and how stretched they are. Sentiment is the University of Michigan's monthly survey of how people see their finances and the economy. The debt service ratio is the share of after-tax income that goes to mortgage and loan payments; when it climbs, there is less left to spend."
+          subtitle="How households feel, how stretched they are, and what they are actually spending. Sentiment is the University of Michigan's monthly survey of how people see their finances and the economy. The debt service ratio is the share of after-tax income that goes to mortgage and loan payments; when it climbs, there is less left to spend. Retail sales are in dollars, so part of their growth is just inflation."
           panels={charts?.consumer ?? []}
           health={health?.consumer}
           layout="row"
           start={start}
           end={end}
           recessions={recessions}
-          className="lg:col-span-2 min-h-[350px]"
+          className="lg:col-span-2 min-h-[368px]"
         />
         <ChartCard
           title="How Tight is Monetary Policy?"
-          subtitle="The Fed's rates against core PCE inflation. IORB is the rate the Fed pays banks on their reserves; fed funds trades just below it, and SOFR, the cost of borrowing overnight against Treasuries, sits close by. The gap between fed funds and core PCE is the real policy rate. Judge tight or loose against neutral, which most estimates put a little under 1%, not against zero."
+          subtitle="The Fed's rates against core PCE inflation. IORB, what the Fed pays banks on their reserves, sets the ceiling; ON RRP, what it pays money funds on overnight reverse repos, sets the floor. Fed funds trades between them, and SOFR, the cost of borrowing overnight against Treasuries, sits close by. Fed funds minus core PCE is the real policy rate (rated above); judge it against neutral, a little under 1%, not against zero."
           panels={charts?.policy ?? []}
           health={health?.policy}
           start={start}
           end={end}
           recessions={recessions}
-          legend={legendOf(['FEDFUNDS', 'IORB', 'SOFR', 'COREPCE_YOY', 'REAL_RATE'])}
+          legend={legendOf(['IORB', 'FEDFUNDS', 'SOFR', 'ONRRP', 'COREPCE_YOY'])}
           className="min-h-[360px]"
         />
         <ChartCard
