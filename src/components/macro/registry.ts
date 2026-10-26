@@ -7,14 +7,14 @@ import { fixed, jobs, millions, pct, signedPt, signedUnits, trillions, units } f
 
 /** Keys of the series the charts draw, raw and derived. */
 export type Key =
-  | 'FEDFUNDS' | 'IORB' | 'SOFR' | 'DGS2' | 'DGS10' | 'T10Y2Y'
+  | 'FEDFUNDS' | 'IORB' | 'SOFR' | 'ONRRP' | 'DGS2' | 'DGS10' | 'T10Y2Y'
   | 'CPI_YOY' | 'CORECPI_YOY' | 'COREPCE_YOY' | 'PCE_YOY' | 'REAL_RATE'
   | 'UNRATE' | 'PAYROLL_CHG' | 'GDP' | 'GDPNOW'
   | 'MORTGAGE30US' | 'BAA10Y'
   | 'UMCSENT' | 'TDSP'
   | 'SAHM' | 'RECPROB'
   | 'PERMIT' | 'HOUST' | 'HPI_YOY'
-  | 'DURABLES_YOY' | 'TOTALSA';
+  | 'DURABLES_YOY' | 'TOTALSA' | 'CFNAI' | 'CFNAI_MA3' | 'RETAIL_YOY';
 
 /**
  * One colour per series, everywhere it appears. Families carry meaning:
@@ -27,6 +27,7 @@ export const COLOR: Record<Key, string> = {
   FEDFUNDS: '#2F6BFF',
   IORB: '#7C3AED',
   SOFR: '#0D9488',
+  ONRRP: '#F59E0B',
   DGS10: '#1D4ED8',
   DGS2: '#0D9488',
   T10Y2Y: '#111827',
@@ -50,6 +51,9 @@ export const COLOR: Record<Key, string> = {
   HPI_YOY: '#9A3412',
   DURABLES_YOY: '#4338CA',
   TOTALSA: '#B45309',
+  CFNAI: '#A5B4C8',
+  CFNAI_MA3: '#1E3A8A',
+  RETAIL_YOY: '#2563EB',
 };
 
 /** Neutral grey behind every time series: NBER recession months. */
@@ -65,6 +69,7 @@ export const NAME: Record<Key, string> = {
   FEDFUNDS: 'Fed funds rate',
   IORB: 'IORB',
   SOFR: 'SOFR',
+  ONRRP: 'ON RRP',
   DGS2: '2-year Treasury',
   DGS10: '10-year Treasury',
   T10Y2Y: '10-year minus 2-year',
@@ -88,6 +93,9 @@ export const NAME: Record<Key, string> = {
   HPI_YOY: 'Home prices, Case-Shiller',
   DURABLES_YOY: 'Durable goods orders',
   TOTALSA: 'Vehicle sales',
+  CFNAI: 'CFNAI, monthly',
+  CFNAI_MA3: 'CFNAI, 3-month average',
+  RETAIL_YOY: 'Retail sales',
 };
 
 /** Rates read as percents; spreads and the real rate read as percentage points. */
@@ -95,6 +103,7 @@ export const FORMAT: Record<Key, (v: number) => string> = {
   FEDFUNDS: v => pct(v, 2),
   IORB: v => pct(v, 2),
   SOFR: v => pct(v, 2),
+  ONRRP: v => pct(v, 2),
   DGS2: v => pct(v, 2),
   DGS10: v => pct(v, 2),
   T10Y2Y: v => signedPt(v, 2),
@@ -118,6 +127,9 @@ export const FORMAT: Record<Key, (v: number) => string> = {
   HPI_YOY: v => pct(v, 1),
   DURABLES_YOY: v => pct(v, 1),
   TOTALSA: v => millions(v),
+  CFNAI: v => (v > 0 ? '+' : '') + fixed(v, 2),
+  CFNAI_MA3: v => (v > 0 ? '+' : '') + fixed(v, 2),
+  RETAIL_YOY: v => pct(v, 1),
 };
 
 /** Axis tick formats: fewer decimals, no sign noise. */
@@ -129,6 +141,7 @@ export const AXIS = {
   units: (v: number) => units(v, 1),
   millions: (v: number) => millions(v, 0),
   index: (v: number) => String(v),
+  signed: (v: number) => (v > 0 ? '+' : v < 0 ? '\u2212' : '') + Math.abs(v),
 };
 
 export interface TileSpec {
@@ -162,6 +175,9 @@ export const USED_AS: Record<string, string> = {
   IORB: 'Interest rate the Fed pays banks on their reserves, as published (from July 29, 2021)',
   IOER: 'Interest rate on excess reserves, the rate IORB replaced; drawn as the same IORB line before July 29, 2021',
   SOFR: 'Secured overnight financing rate, as published (from April 2018)',
+  RRPONTSYAWARD: 'ON RRP award rate, as published: what the Fed pays on overnight reverse repos, the floor under short-term rates (from September 2013)',
+  CFNAI: 'Chicago Fed National Activity Index, as published; the 3-month average is computed on the page. Zero means the economy is growing at its long-run trend.',
+  RSAFS: 'Retail sales growth = % change vs the same month a year earlier, from the seasonally adjusted dollar level (not adjusted for inflation)',
   DGS2: '2-year yield, as published',
   DGS10: '10-year yield, as published',
   T10Y2Y: 'Curve spread, as published (FRED computes 10y − 2y); inverted-curve shading is every stretch below zero',
