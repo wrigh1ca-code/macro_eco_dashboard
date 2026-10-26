@@ -60,6 +60,7 @@ export function derive(b: Bundle): MacroData {
   const ioer = optional('IOER');
   // IOER was renamed IORB on July 29, 2021; join them into one line.
   const iorbFull = iorb.length ? [...ioer.filter(o => o.t < iorb[0].t), ...iorb] : ioer;
+
   const freqOf = (id: string): Freq => normFreq(b.series.find(s => s.id === id)?.frequency);
 
   const fedfunds = raw('FEDFUNDS');
@@ -67,12 +68,15 @@ export function derive(b: Bundle): MacroData {
 
   const series: Record<Key, Series> = {
     FEDFUNDS: fedfunds,
+    IORB: iorbFull,
+    SOFR: optional('SOFR'),
     DGS2: raw('DGS2'),
     DGS10: raw('DGS10'),
     T10Y2Y: raw('T10Y2Y'),
     CPI_YOY: yoy(raw('CPIAUCSL')),
     CORECPI_YOY: yoy(raw('CPILFESL')),
     COREPCE_YOY: corePce,
+    PCE_YOY: yoy(optional('PCEPI')),
     REAL_RATE: subtractByMonth(fedfunds, corePce),
     UNRATE: raw('UNRATE'),
     PAYROLL_CHG: diff(raw('PAYEMS')),
@@ -80,10 +84,8 @@ export function derive(b: Bundle): MacroData {
     GDPNOW: optional('GDPNOW'),
     MORTGAGE30US: raw('MORTGAGE30US'),
     BAA10Y: raw('BAA10Y'),
-    WALCL_T: scale(raw('WALCL'), 1e-6),
-    EFFR: optional('EFFR'),
-    IORB: iorbFull,
-    SOFR: optional('SOFR'),
+    UMCSENT: optional('UMCSENT'),
+    TDSP: optional('TDSP'),
     SAHM: raw('SAHMREALTIME'),
     RECPROB: raw('RECPROUSM156N'),
     PERMIT: raw('PERMIT'),
@@ -95,12 +97,15 @@ export function derive(b: Bundle): MacroData {
 
   const freq: Record<Key, Freq> = {
     FEDFUNDS: freqOf('FEDFUNDS'),
+    IORB: 'daily',
+    SOFR: 'daily',
     DGS2: freqOf('DGS2'),
     DGS10: freqOf('DGS10'),
     T10Y2Y: freqOf('T10Y2Y'),
     CPI_YOY: 'monthly',
     CORECPI_YOY: 'monthly',
     COREPCE_YOY: 'monthly',
+    PCE_YOY: 'monthly',
     REAL_RATE: 'monthly',
     UNRATE: freqOf('UNRATE'),
     PAYROLL_CHG: 'monthly',
@@ -108,10 +113,8 @@ export function derive(b: Bundle): MacroData {
     GDPNOW: 'quarterly',
     MORTGAGE30US: freqOf('MORTGAGE30US'),
     BAA10Y: freqOf('BAA10Y'),
-    WALCL_T: freqOf('WALCL'),
-    EFFR: 'daily',
-    IORB: 'daily',
-    SOFR: 'daily',
+    UMCSENT: 'monthly',
+    TDSP: 'quarterly',
     SAHM: freqOf('SAHMREALTIME'),
     RECPROB: freqOf('RECPROUSM156N'),
     PERMIT: freqOf('PERMIT'),
