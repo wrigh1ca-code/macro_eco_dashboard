@@ -156,7 +156,8 @@ export default function Panel({ spec, x0, x1, recessions, hoverT, onHover }: Pro
 
   const paths = thinned.map(s => {
     let d = '';
-    for (let i = 0; i < s.length; i++) d += `${i ? 'L' : 'M'}${x(s[i].t).toFixed(1)} ${y(s[i].v).toFixed(1)}`;
+    const yv = (v: number) => y(spec.clampAbs !== undefined ? clampV(v) : v);
+    for (let i = 0; i < s.length; i++) d += `${i ? 'L' : 'M'}${x(s[i].t).toFixed(1)} ${yv(s[i].v).toFixed(1)}`;
     return d;
   });
 
@@ -186,7 +187,7 @@ export default function Panel({ spec, x0, x1, recessions, hoverT, onHover }: Pro
         .map((s, k) => {
           const o = s[s.length - 1];
           if (!o) return null;
-          const yy = y(bars ? clampV(o.v) : o.v);
+          const yy = y(bars || spec.clampAbs !== undefined ? clampV(o.v) : o.v);
           return { k, x: bars ? x(nextMonth(o.t)) : x(o.t), yLine: yy, y: yy, text: spec.series[k].format(o.v), color: spec.series[k].color };
         })
         .filter((e): e is NonNullable<typeof e> => e !== null)
