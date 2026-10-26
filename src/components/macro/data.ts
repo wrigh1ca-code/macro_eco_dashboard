@@ -2,7 +2,7 @@
 // the series the charts draw from the raw FRED levels.
 
 import {
-  diff, fromBundle, last, negativeSpans, normFreq, parseDate, recessionSpans, scale, subtractByMonth, yoy,
+  diff, fromBundle, last, movingAverage, negativeSpans, normFreq, parseDate, recessionSpans, scale, subtractByMonth, yoy,
   type Freq, type Series, type Span,
 } from './compute';
 import type { Key } from './registry';
@@ -70,6 +70,7 @@ export function derive(b: Bundle): MacroData {
     FEDFUNDS: fedfunds,
     IORB: iorbFull,
     SOFR: optional('SOFR'),
+    ONRRP: optional('RRPONTSYAWARD'),
     DGS2: raw('DGS2'),
     DGS10: raw('DGS10'),
     T10Y2Y: raw('T10Y2Y'),
@@ -93,12 +94,16 @@ export function derive(b: Bundle): MacroData {
     HPI_YOY: yoy(raw('CSUSHPINSA')),
     DURABLES_YOY: yoy(raw('ADXTNO')),
     TOTALSA: raw('TOTALSA'),
+    CFNAI: optional('CFNAI'),
+    CFNAI_MA3: movingAverage(optional('CFNAI'), 3),
+    RETAIL_YOY: yoy(optional('RSAFS')),
   };
 
   const freq: Record<Key, Freq> = {
     FEDFUNDS: freqOf('FEDFUNDS'),
     IORB: 'daily',
     SOFR: 'daily',
+    ONRRP: 'daily',
     DGS2: freqOf('DGS2'),
     DGS10: freqOf('DGS10'),
     T10Y2Y: freqOf('T10Y2Y'),
@@ -122,6 +127,9 @@ export function derive(b: Bundle): MacroData {
     HPI_YOY: 'monthly',
     DURABLES_YOY: 'monthly',
     TOTALSA: freqOf('TOTALSA'),
+    CFNAI: 'monthly',
+    CFNAI_MA3: 'monthly',
+    RETAIL_YOY: 'monthly',
   };
 
   let dataEnd = 0;
