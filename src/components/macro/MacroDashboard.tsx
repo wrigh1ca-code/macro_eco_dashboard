@@ -60,7 +60,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
       },
     ];
     const labor: PanelSpec[] = [
-      { key: 'unrate', series: [S('UNRATE')], yFormat: AXIS.pct, caption: 'Unemployment rate', flex: 3 },
+      { key: 'unrate', series: [S('UNRATE')], yFormat: AXIS.pct, caption: 'Unemployment rate', flex: 1 },
       {
         key: 'payrolls',
         series: [S('PAYROLL_CHG')],
@@ -69,7 +69,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         includeZero: true,
         clampAbs: PAYROLL_CLAMP,
         caption: 'Monthly change in nonfarm payrolls',
-        flex: 2,
+        flex: 1,
       },
     ];
     const inflation: PanelSpec[] = [{
@@ -91,7 +91,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         includeZero: true,
         refLines: [{ v: 0.5, label: '0.50 = triggered', dashed: true }],
         caption: 'Sahm rule: unemployment\u2019s 3-month average, above its low of the past year',
-        flex: 3,
+        flex: 1,
       },
       {
         key: 'recprob',
@@ -99,9 +99,9 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         yFormat: AXIS.pct,
         includeZero: true,
         caption: 'Smoothed probability the economy was in recession that month',
-        flex: 2,
+        flex: 1,
       },
-      { key: 'baa', series: [S('BAA10Y')], yFormat: AXIS.pt, caption: 'Baa corporate spread over 10-year Treasury', flex: 2 },
+      { key: 'baa', series: [S('BAA10Y')], yFormat: AXIS.pt, caption: 'Baa corporate spread over 10-year Treasury', flex: 1 },
     ];
     const housing: PanelSpec[] = [
       { key: 'mortgage', series: [S('MORTGAGE30US')], yFormat: AXIS.pct, caption: '30-year fixed mortgage rate' },
@@ -115,14 +115,14 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
         yFormat: AXIS.pct,
         includeZero: true,
         caption: 'Durable goods orders ex-transport, vs a year earlier',
-        flex: 3,
+        flex: 1,
       },
       {
         key: 'vehicles',
         series: [S('TOTALSA')],
         yFormat: AXIS.millions,
         caption: 'Total vehicle sales, annualized',
-        flex: 2,
+        flex: 1,
       },
     ];
     return { policy, curve, labor, inflation, consumer, recession, housing, production };
@@ -205,27 +205,6 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
 
       <div className="grid lg:grid-cols-2 gap-4">
         <ChartCard
-          title="What is the Current Recession Threat?"
-          subtitle="Three readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. The Baa spread is what investors demand to hold corporate risk over Treasuries; it widens when they start to fear defaults. When they move together, that is the signal worth taking seriously."
-          panels={charts?.recession ?? []}
-          health={health?.recession}
-          start={start}
-          end={end}
-          recessions={recessions}
-          note="The Sahm rule and the probability are coincident, not leading: they tell you a recession has likely begun, not that one is coming. The spread is set daily in markets, so it often moves first."
-          className="min-h-[560px]"
-        />
-        <ChartCard
-          title="How is Big-Ticket Spending?"
-          subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does."
-          panels={charts?.production ?? []}
-          health={health?.production}
-          start={start}
-          end={end}
-          recessions={recessions}
-          className="min-h-[360px]"
-        />
-        <ChartCard
           title="What is the State of the Labor Market?"
           subtitle="Unemployment rises slowly, then fast. Payroll growth usually stalls first."
           panels={charts?.labor ?? []}
@@ -234,7 +213,7 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           end={end}
           recessions={recessions}
           note={payrollCut ? 'Bars beyond ±1M jobs a month are cut at the edge and marked; hover for the exact figure.' : undefined}
-          className="min-h-[360px]"
+          className="min-h-[580px]"
         />
         <ChartCard
           title="What is the Inflation Landscape?"
@@ -245,6 +224,27 @@ export default function MacroDashboard({ label = 'Macro Dashboard', manifest, fe
           end={end}
           recessions={recessions}
           legend={legendOf(['CPI_YOY', 'CORECPI_YOY', 'PCE_YOY', 'COREPCE_YOY'])}
+          className="min-h-[360px]"
+        />
+        <ChartCard
+          title="What is the Current Recession Threat?"
+          subtitle="Three readings. The Sahm rule watches only unemployment and triggers at 0.50. The smoothed probability comes from a model of payrolls, production, income and sales. The Baa spread is what investors demand to hold corporate risk over Treasuries; it widens when they start to fear defaults. When they move together, that is the signal worth taking seriously."
+          panels={charts?.recession ?? []}
+          health={health?.recession}
+          start={start}
+          end={end}
+          recessions={recessions}
+          note="The Sahm rule and the probability are coincident, not leading: they tell you a recession has likely begun, not that one is coming. The spread is set daily in markets, so it often moves first."
+          className="min-h-[880px]"
+        />
+        <ChartCard
+          title="How is Big-Ticket Spending?"
+          subtitle="Durable goods orders are what businesses commit to; vehicle sales are what households commit to. Both are purchases that can wait, so both sag before the wider economy does."
+          panels={charts?.production ?? []}
+          health={health?.production}
+          start={start}
+          end={end}
+          recessions={recessions}
           className="min-h-[360px]"
         />
         <ChartCard
