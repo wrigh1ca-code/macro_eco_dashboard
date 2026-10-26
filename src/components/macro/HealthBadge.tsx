@@ -100,7 +100,7 @@ export function InfoTip({ health, title }: { health: BoxHealth; title: string })
           <ul className="list-none p-0 m-0 mt-2.5 space-y-2.5">
             {health.checks.map(c => (
               <li key={c.name}>
-                <div className="flex items-center gap-1.5 text-[12.5px] font-semibold text-fika-text leading-tight">
+                <div className="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[12.5px] font-semibold text-fika-text leading-tight">
                   <Dot light={c.light} />
                   <span>{c.name}</span>
                   <span className="ml-auto pl-2 font-bold whitespace-nowrap" style={{ fontVariantNumeric: 'tabular-nums' }}>{c.value ?? 'no data yet'}</span>
