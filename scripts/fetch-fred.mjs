@@ -34,6 +34,7 @@ const SERIES = [
   'IORB',
   'IOER',
   'SOFR',
+  'RRPONTSYAWARD',
   'DGS2',
   'DGS10',
   'T10Y2Y',
@@ -55,8 +56,10 @@ const SERIES = [
   'CSUSHPINSA',
   'ADXTNO',
   'TOTALSA',
+  'CFNAI',
   'UMCSENT',
   'TDSP',
+  'RSAFS',
 ];
 
 // Used only when the series page cannot be parsed.
@@ -65,6 +68,9 @@ const FALLBACK = {
   IORB: { name: 'Interest Rate on Reserve Balances (IORB Rate)', units: 'Percent', frequency: 'Daily, 7-Day', source: 'Board of Governors of the Federal Reserve System (US)', release: 'Interest Rate on Reserve Balances' },
   IOER: { name: 'Interest Rate on Excess Reserves (IOER Rate) (DISCONTINUED)', units: 'Percent', frequency: 'Daily, 7-Day', source: 'Board of Governors of the Federal Reserve System (US)', release: 'Interest Rate on Reserve Balances' },
   SOFR: { name: 'Secured Overnight Financing Rate', units: 'Percent', frequency: 'Daily', source: 'Federal Reserve Bank of New York', release: 'Secured Overnight Financing Rate Data' },
+  RRPONTSYAWARD: { name: 'Overnight Reverse Repurchase Agreements Award Rate', units: 'Percent', frequency: 'Daily', source: 'Federal Reserve Bank of New York', release: 'Temporary Open Market Operations' },
+  CFNAI: { name: 'Chicago Fed National Activity Index', units: 'Index', frequency: 'Monthly', source: 'Federal Reserve Bank of Chicago', release: 'Chicago Fed National Activity Index' },
+  RSAFS: { name: 'Advance Retail Sales: Retail Trade and Food Services', units: 'Millions of Dollars', frequency: 'Monthly', source: 'U.S. Census Bureau', release: 'Advance Monthly Sales for Retail and Food Services' },
   DGS2: { name: 'Market Yield on U.S. Treasury Securities at 2-Year Constant Maturity', units: 'Percent', frequency: 'Daily', source: 'Board of Governors of the Federal Reserve System (US)', release: 'H.15 Selected Interest Rates' },
   DGS10: { name: 'Market Yield on U.S. Treasury Securities at 10-Year Constant Maturity', units: 'Percent', frequency: 'Daily', source: 'Board of Governors of the Federal Reserve System (US)', release: 'H.15 Selected Interest Rates' },
   T10Y2Y: { name: '10-Year Treasury Constant Maturity Minus 2-Year Treasury Constant Maturity', units: 'Percent', frequency: 'Daily', source: 'Federal Reserve Bank of St. Louis', release: '' },
