@@ -1,4 +1,4 @@
-# Refresh the FRED data every morning and commit it. If the repo is
+# Refresh the FRED data every morning and commit it. If the repo is 
 # connected to Vercel (or Netlify, or GitHub Pages), the push redeploys the site.
 name: Refresh FRED data
 
