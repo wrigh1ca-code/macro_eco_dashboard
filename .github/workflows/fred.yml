@@ -1,7 +1,10 @@
-# Refresh the FRED data every morning and commit it. If the repo is 
+# Refresh the FRED data every morning and commit it. If the repo is
 # connected to Vercel (or Netlify, or GitHub Pages), the push redeploys the site.
 name: Refresh FRED data
 
+# The Cloudflare Worker's morning timer (worker/index.js) starts this run through
+# workflow_dispatch. GitHub's own schedule below is kept as a backup; if both
+# fire, the second run finds nothing new and commits nothing.
 on:
   schedule:
     - cron: '17 11 * * *' # every day, 11:17 UTC (early morning in the U.S.), after FRED posts the previous day's data
@@ -9,6 +12,11 @@ on:
 
 permissions:
   contents: write
+
+# Never run two refreshes at once, so they can't trip over each other's commits.
+concurrency:
+  group: fred-refresh
+  cancel-in-progress: false
 
 jobs:
   refresh:
