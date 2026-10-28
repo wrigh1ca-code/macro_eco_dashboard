@@ -111,12 +111,16 @@ function check(name: string, value: number | null, fmt: (v: number) => string, l
   return { name, value: value === null ? null : fmt(value), light: value === null ? null : light, green, yellow, red, why };
 }
 
-/** Every check green: healthy. More than half red: unhealthy. Otherwise mixed. Fewer than two checks with data: no reading. */
+/** Every check green: healthy. At least two-thirds red, or more than half red with no green: unhealthy. Otherwise mixed. Fewer than two checks with data: no reading. */
 export function rollUp(lights: (Light | null)[]): Verdict {
   const have = lights.filter((l): l is Light => l !== null);
   if (have.length < 2) return 'none';
   if (have.every(l => l === 'green')) return 'good';
-  if (have.filter(l => l === 'red').length > have.length / 2) return 'bad';
+  // Unhealthy on a clear majority of red: at least two-thirds (2 of 3, 3 of 4, 4 of 5), or more
+  // than half with nothing green to offset them. A close split such as 3 red and 2 green stays Mixed.
+  const reds = have.filter(l => l === 'red').length;
+  const greens = have.filter(l => l === 'green').length;
+  if (reds >= (2 * have.length) / 3 || (reds > have.length / 2 && greens === 0)) return 'bad';
   return 'mixed';
 }
 
@@ -174,8 +178,8 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
   ]);
 
   // Inflation
-  const inf = (name: string, v: number | null) => check(name, v, x => pct(x, 2), below(v === null ? null : v - 1e-9, 2.5, 3.0),
-    '2.5% or less', '2.5% to 3.0%', 'over 3.0%',
+  const inf = (name: string, v: number | null) => check(name, v, x => pct(x, 2), below(v, 2.5, 3.5),
+    'below 2.5%', '2.5% to 3.5%', 'above 3.5%',
     'Measured against the Fed’s 2% target.');
   const inflation = box([
     inf('Headline CPI, year over year', latest(S.CPI_YOY)),
