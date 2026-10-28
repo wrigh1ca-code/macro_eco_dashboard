@@ -116,7 +116,7 @@ export function InfoTip({ health, title }: { health: BoxHealth; title: string })
           </ul>
           <div className="mt-3 pt-2.5 border-t border-fika-border text-[11.5px] leading-snug text-fika-secondary">
             The heart is <b style={{ color: TONE.good.ink }}>Healthy</b> when every check is {LIGHT_WORD.green},{' '}
-            <b style={{ color: TONE.bad.ink }}>Unhealthy</b> when more than half are {LIGHT_WORD.red}, and{' '}
+            <b style={{ color: TONE.bad.ink }}>Unhealthy</b> when at least two-thirds are {LIGHT_WORD.red} (or more than half, with none {LIGHT_WORD.green}), and{' '}
             <b style={{ color: TONE.mixed.ink }}>Mixed</b> otherwise. It needs at least two checks with data to give a reading.
             {health.footnote && <> {health.footnote}</>}
           </div>
