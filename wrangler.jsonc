@@ -1,5 +1,14 @@
 {
   "name": "macro-dashboard",
   "compatibility_date": "2026-10-01",
-  "assets": { "directory": "./dist" }
+  // Serves the built site and runs the morning timer (see worker/index.js).
+  "main": "worker/index.js",
+  "assets": { "directory": "./dist", "binding": "ASSETS" },
+  // Every day at 11:17 UTC: 5:17 a.m. Mountain in summer, 4:17 a.m. in winter.
+  "triggers": { "crons": ["17 11 * * *"] },
+  "vars": {
+    "GITHUB_REPO": "wrigh1ca-code/macro_eco_dashboard",
+    "GITHUB_WORKFLOW": "fred.yml",
+    "GITHUB_BRANCH": "main"
+  }
 }
