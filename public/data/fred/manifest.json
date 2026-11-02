@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-02T11:17:22.400Z",
+  "fetchedAt": "2026-11-02T20:46:16.990Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-10-29",
-      "observations": 2142,
-      "fredUpdated": "2026-10-30 07:02:26-05",
+      "lastDate": "2026-10-30",
+      "observations": 2143,
+      "fredUpdated": "2026-11-02 07:02:13-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -79,9 +79,9 @@
       "release": "Temporary Open Market Operations",
       "releaseUrl": "https://www.newyorkfed.org/markets/data-hub",
       "firstDate": "2013-09-23",
-      "lastDate": "2026-10-30",
-      "observations": 3193,
-      "fredUpdated": "2026-10-30 13:02:32-05",
+      "lastDate": "2026-11-02",
+      "observations": 3194,
+      "fredUpdated": "2026-11-02 13:02:46-06",
       "fredUrl": "https://fred.stlouisfed.org/series/RRPONTSYAWARD",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RRPONTSYAWARD",
       "localCsv": "/data/fred/RRPONTSYAWARD.csv"
@@ -268,7 +268,7 @@
       "firstDate": "2011-07-01",
       "lastDate": "2026-10-01",
       "observations": 62,
-      "fredUpdated": "2026-10-29 09:33:26-05",
+      "fredUpdated": "2026-11-02 11:02:35-06",
       "fredUrl": "https://fred.stlouisfed.org/series/GDPNOW",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GDPNOW",
       "localCsv": "/data/fred/GDPNOW.csv"
@@ -351,9 +351,9 @@
       "release": "U.S. Recession Probabilities",
       "releaseUrl": "https://jeremypiger.com/recession_probs/",
       "firstDate": "1967-06-01",
-      "lastDate": "2026-08-01",
-      "observations": 711,
-      "fredUpdated": "2026-10-01 14:34:26-05",
+      "lastDate": "2026-09-01",
+      "observations": 712,
+      "fredUpdated": "2026-11-02 07:02:16-06",
       "fredUrl": "https://fred.stlouisfed.org/series/RECPROUSM156N",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RECPROUSM156N",
       "localCsv": "/data/fred/RECPROUSM156N.csv"
