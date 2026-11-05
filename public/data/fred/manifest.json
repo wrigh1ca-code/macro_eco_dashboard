@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-05T11:17:25.909Z",
+  "fetchedAt": "2026-11-05T18:44:13.890Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-03",
-      "observations": 2145,
-      "fredUpdated": "2026-11-04 07:02:29-06",
+      "lastDate": "2026-11-04",
+      "observations": 2146,
+      "fredUpdated": "2026-11-05 07:02:21-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -283,9 +283,9 @@
       "release": "Primary Mortgage Market Survey",
       "releaseUrl": "http://www.freddiemac.com/pmms/",
       "firstDate": "1971-04-02",
-      "lastDate": "2026-10-29",
-      "observations": 2901,
-      "fredUpdated": "2026-10-29 11:08:23-05",
+      "lastDate": "2026-11-05",
+      "observations": 2902,
+      "fredUpdated": "2026-11-05 11:02:26-06",
       "fredUrl": "https://fred.stlouisfed.org/series/MORTGAGE30US",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US",
       "localCsv": "/data/fred/MORTGAGE30US.csv"
