@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-06T11:17:22.969Z",
+  "fetchedAt": "2026-11-06T16:14:04.380Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-04",
-      "observations": 2146,
-      "fredUpdated": "2026-11-05 07:02:21-06",
+      "lastDate": "2026-11-05",
+      "observations": 2147,
+      "fredUpdated": "2026-11-06 07:02:32-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -215,9 +215,9 @@
       "release": "Employment Situation",
       "releaseUrl": "http://www.bls.gov/ces/",
       "firstDate": "1948-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 944,
-      "fredUpdated": "2026-10-02 08:24:37-05",
+      "lastDate": "2026-10-01",
+      "observations": 945,
+      "fredUpdated": "2026-11-06 09:43:15-06",
       "fredUrl": "https://fred.stlouisfed.org/series/UNRATE",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE",
       "localCsv": "/data/fred/UNRATE.csv"
@@ -232,9 +232,9 @@
       "release": "Employment Situation",
       "releaseUrl": "http://www.bls.gov/ces/",
       "firstDate": "1939-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 1053,
-      "fredUpdated": "2026-10-02 08:24:33-05",
+      "lastDate": "2026-10-01",
+      "observations": 1054,
+      "fredUpdated": "2026-11-06 09:43:20-06",
       "fredUrl": "https://fred.stlouisfed.org/series/PAYEMS",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PAYEMS",
       "localCsv": "/data/fred/PAYEMS.csv"
@@ -334,9 +334,9 @@
       "release": "Sahm Rule Recession Indicator",
       "releaseUrl": "http://www.hamiltonproject.org/assets/files/Sahm_web_20190506.pdf",
       "firstDate": "1959-12-01",
-      "lastDate": "2026-09-01",
-      "observations": 801,
-      "fredUpdated": "2026-10-02 08:36:29-05",
+      "lastDate": "2026-10-01",
+      "observations": 802,
+      "fredUpdated": "2026-11-06 09:47:24-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SAHMREALTIME",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SAHMREALTIME",
       "localCsv": "/data/fred/SAHMREALTIME.csv"
