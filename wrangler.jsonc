@@ -1,14 +1,17 @@
 {
   "name": "macro-dashboard",
   "compatibility_date": "2026-10-01",
-  // Serves the built site and runs the morning timer (see worker/index.js).
+  // Serves the built site and runs the refresh timer (see worker/index.js).
   "main": "worker/index.js",
   "assets": { "directory": "./dist", "binding": "ASSETS" },
-  // Every day at 11:17 UTC: 5:17 a.m. Mountain in summer, 4:17 a.m. in winter.
-  "triggers": { "crons": ["17 11 * * *"] },
+  // Wakes at the top of every hour; worker/index.js starts a refresh only at the
+  // REFRESH_HOURS below, in Mountain time (6 a.m., 9 a.m., noon, 3, 6 and 9 p.m.).
+  "triggers": { "crons": ["0 * * * *"] },
   "vars": {
     "GITHUB_REPO": "wrigh1ca-code/macro_eco_dashboard",
     "GITHUB_WORKFLOW": "fred.yml",
-    "GITHUB_BRANCH": "main"
+    "GITHUB_BRANCH": "main",
+    "TIME_ZONE": "America/Denver",
+    "REFRESH_HOURS": "6,9,12,15,18,21"
   }
 }
