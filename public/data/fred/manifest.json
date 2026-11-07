@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-06T22:00:36.604Z",
+  "fetchedAt": "2026-11-07T01:00:37.007Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -28,9 +28,9 @@
       "release": "Interest Rate on Reserve Balances",
       "releaseUrl": "http://www.federalreserve.gov/monetarypolicy/reqresbalances.htm",
       "firstDate": "2021-07-29",
-      "lastDate": "2026-11-06",
-      "observations": 1927,
-      "fredUpdated": "2026-11-05 15:31:31-06",
+      "lastDate": "2026-11-09",
+      "observations": 1930,
+      "fredUpdated": "2026-11-06 16:05:46-06",
       "fredUrl": "https://fred.stlouisfed.org/series/IORB",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IORB",
       "localCsv": "/data/fred/IORB.csv"
@@ -96,9 +96,9 @@
       "release": "H.15 Selected Interest Rates",
       "releaseUrl": "http://www.federalreserve.gov/releases/h15/",
       "firstDate": "1976-06-01",
-      "lastDate": "2026-11-04",
-      "observations": 12604,
-      "fredUpdated": "2026-11-05 15:16:34-06",
+      "lastDate": "2026-11-05",
+      "observations": 12605,
+      "fredUpdated": "2026-11-06 16:05:44-06",
       "fredUrl": "https://fred.stlouisfed.org/series/DGS2",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2",
       "localCsv": "/data/fred/DGS2.csv"
@@ -113,9 +113,9 @@
       "release": "H.15 Selected Interest Rates",
       "releaseUrl": "http://www.federalreserve.gov/releases/h15/",
       "firstDate": "1962-01-02",
-      "lastDate": "2026-11-04",
-      "observations": 16196,
-      "fredUpdated": "2026-11-05 15:16:28-06",
+      "lastDate": "2026-11-05",
+      "observations": 16197,
+      "fredUpdated": "2026-11-06 16:05:42-06",
       "fredUrl": "https://fred.stlouisfed.org/series/DGS10",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
       "localCsv": "/data/fred/DGS10.csv"
@@ -130,9 +130,9 @@
       "release": "Interest Rate Spreads",
       "releaseUrl": null,
       "firstDate": "1976-06-01",
-      "lastDate": "2026-11-05",
-      "observations": 12605,
-      "fredUpdated": "2026-11-05 16:03:46-06",
+      "lastDate": "2026-11-06",
+      "observations": 12606,
+      "fredUpdated": "2026-11-06 16:03:56-06",
       "fredUrl": "https://fred.stlouisfed.org/series/T10Y2Y",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y2Y",
       "localCsv": "/data/fred/T10Y2Y.csv"
@@ -292,7 +292,7 @@
     },
     {
       "id": "BAA10Y",
-      "name": "Moody's Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity (DISCONTINUED)",
+      "name": "Moody's Seasoned Baa Corporate Bond Yield Relative to Yield on 10-Year Treasury Constant Maturity",
       "units": "Percent",
       "frequency": "Daily",
       "source": "Federal Reserve Bank of St. Louis",
@@ -300,9 +300,9 @@
       "release": "Interest Rate Spreads",
       "releaseUrl": null,
       "firstDate": "1986-01-02",
-      "lastDate": "2026-11-04",
-      "observations": 10211,
-      "fredUpdated": "2026-11-05 16:03:47-06",
+      "lastDate": "2026-11-05",
+      "observations": 10212,
+      "fredUpdated": "2026-11-06 16:04:00-06",
       "fredUrl": "https://fred.stlouisfed.org/series/BAA10Y",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=BAA10Y",
       "localCsv": "/data/fred/BAA10Y.csv"
