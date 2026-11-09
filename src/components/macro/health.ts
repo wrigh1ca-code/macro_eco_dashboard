@@ -5,7 +5,7 @@
 // To change a threshold, edit the check below; the info pop-up on the page
 // reads its text from the same place, so the explanation stays in step.
 
-import { atOrBefore, last, monthKey, type Series } from './compute';
+import { atOrBefore, last, monthKey, monthsBefore, type Series } from './compute';
 import type { Key } from './registry';
 
 export type Light = 'green' | 'yellow' | 'red';
@@ -56,13 +56,22 @@ function changeOver(s: Series | undefined, days: number): number | null {
   return now.v - then.v;
 }
 
-/** Monthly series: change versus the same month `months` earlier. */
+/** Monthly series: change versus the same month `months` earlier (or the closest earlier month if that one is missing). */
 function changeMonths(s: Series | undefined, months: number): number | null {
   const now = s ? last(s) : undefined;
   if (!s || !now) return null;
-  const want = monthKey(now.t) - months;
-  const then = s.find(o => monthKey(o.t) === want);
+  const then = monthsBefore(s, now.t, months);
   return then ? now.v - then.v : null;
+}
+
+/** When a year-ago comparison had to use an earlier month, say which: " (vs Sep 2025)". */
+function fallbackNote(s: Series | undefined, months: number): string {
+  const now = s ? last(s) : undefined;
+  if (!s || !now) return '';
+  const then = monthsBefore(s, now.t, months);
+  if (!then || monthKey(then.t) === monthKey(now.t) - months) return '';
+  const d = new Date(then.t);
+  return ` (vs ${d.toLocaleString('en-US', { month: 'short', timeZone: 'UTC' })} ${d.getUTCFullYear()})`;
 }
 
 /** Average of the last 3 monthly observations. */
@@ -168,7 +177,7 @@ export function computeHealth(S: Record<Key, Series>): Record<BoxId, BoxHealth> 
   const unr = changeMonths(S.UNRATE, 12);
   const pay = avg3(S.PAYROLL_CHG);
   const labor = box([
-    check('Unemployment vs a year ago', unr, v => spt(v, 1), unr === null ? null : unr < 0.3 ? 'green' : unr <= 0.6 ? 'yellow' : 'red',
+    check('Unemployment vs a year ago', unr, v => spt(v, 1) + fallbackNote(S.UNRATE, 12), unr === null ? null : unr < 0.3 ? 'green' : unr <= 0.6 ? 'yellow' : 'red',
       'up less than 0.3 pt', 'up 0.3 to 0.6 pt', 'up more than 0.6 pt',
       'Unemployment rises slowly, then fast; a half-point rise is the classic warning.'),
     check('Payroll gains, 3-month average', pay, v => `${v < 0 ? MINUS : '+'}${Math.round(Math.abs(v))}k a month`,
