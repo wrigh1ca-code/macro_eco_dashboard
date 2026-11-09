@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-09T21:25:57.381Z",
+  "fetchedAt": "2026-11-09T22:02:38.283Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -28,9 +28,9 @@
       "release": "Interest Rate on Reserve Balances",
       "releaseUrl": "http://www.federalreserve.gov/monetarypolicy/reqresbalances.htm",
       "firstDate": "2021-07-29",
-      "lastDate": "2026-11-09",
-      "observations": 1930,
-      "fredUpdated": "2026-11-06 16:05:46-06",
+      "lastDate": "2026-11-10",
+      "observations": 1931,
+      "fredUpdated": "2026-11-09 15:31:26-06",
       "fredUrl": "https://fred.stlouisfed.org/series/IORB",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IORB",
       "localCsv": "/data/fred/IORB.csv"
