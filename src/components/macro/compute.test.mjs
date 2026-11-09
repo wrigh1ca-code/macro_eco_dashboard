@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   parseDate, fromBundle, yoy, diff, subtractByMonth, yearAgo, recessionSpans, negativeSpans, clip,
-  lttb, niceTicks, niceDomain, niceScale, yearTicks, monthTicks, indexNearest, atOrBefore, normFreq,
+  lttb, niceTicks, niceDomain, niceScale, yearTicks, monthTicks, indexNearest, atOrBefore, normFreq, monthsBefore,
 } from './compute.ts';
 import { pct, signedPt, jobs, dateLabel, trillions } from './format.ts';
 
@@ -144,4 +144,14 @@ test('formatting', () => {
   assert.equal(dateLabel(D('2026-04-01'), 'quarterly'), 'Q2 2026');
   assert.equal(dateLabel(D('2026-08-01'), 'monthly'), 'Aug 2026');
   assert.equal(dateLabel(D('2026-09-03'), 'daily'), 'Sep 3, 2026');
+});
+
+test('monthsBefore falls back to the closest earlier month when one is missing', () => {
+  const m = (y, mo, v) => ({ t: Date.UTC(y, mo - 1, 1), v });
+  const s = [m(2025, 8, 4.3), m(2025, 9, 4.4), m(2025, 11, 4.5), m(2026, 9, 4.2), m(2026, 10, 4.1)];
+  assert.equal(monthsBefore(s, Date.UTC(2026, 9, 1), 12).v, 4.4); // Oct 2025 missing -> Sep 2025
+  assert.equal(monthsBefore(s, Date.UTC(2026, 8, 1), 12).v, 4.4); // Sep 2025 exact
+  assert.equal(monthsBefore(s, Date.UTC(2026, 9, 1), 12, 0), undefined); // no slack -> nothing
+  const ya = yearAgo(s, 'monthly');
+  assert.ok(Math.abs(ya.delta - (4.1 - 4.4)) < 1e-9);
 });
