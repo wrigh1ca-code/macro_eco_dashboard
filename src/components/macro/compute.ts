@@ -139,13 +139,27 @@ export interface YearAgo {
  * want the same calendar month; daily and weekly take the last observation on
  * or before the date a year back.
  */
+/**
+ * The observation `months` before `t` in a monthly or quarterly series. If that
+ * exact month is missing (October 2025's unemployment rate was never published
+ * because of the government shutdown), fall back to the closest earlier month
+ * within `slack` months, so one gap doesn't blank out a comparison.
+ */
+export function monthsBefore(s: Series, t: number, months: number, slack = 2): Obs | undefined {
+  const want = monthKey(t) - months;
+  for (let back = 0; back <= slack; back++) {
+    const o = s.find(x => monthKey(x.t) === want - back);
+    if (o) return o;
+  }
+  return undefined;
+}
+
 export function yearAgo(s: Series, freq: Freq): YearAgo | null {
   const now = last(s);
   if (!now) return null;
   let then: Obs | undefined;
   if (freq === 'monthly' || freq === 'quarterly') {
-    const want = monthKey(now.t) - 12;
-    then = s.find(o => monthKey(o.t) === want);
+    then = monthsBefore(s, now.t, 12);
   } else {
     then = atOrBefore(s, addYears(now.t, -1));
   }
