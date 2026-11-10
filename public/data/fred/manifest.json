@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-10T13:00:37.633Z",
+  "fetchedAt": "2026-11-10T16:00:40.115Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-06",
-      "observations": 2148,
-      "fredUpdated": "2026-11-09 07:02:18-06",
+      "lastDate": "2026-11-09",
+      "observations": 2149,
+      "fredUpdated": "2026-11-10 07:02:37-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -147,9 +147,9 @@
       "release": "Consumer Price Index",
       "releaseUrl": "http://www.bls.gov/cpi/",
       "firstDate": "1947-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 956,
-      "fredUpdated": "2026-10-14 08:08:29-05",
+      "lastDate": "2026-10-01",
+      "observations": 957,
+      "fredUpdated": "2026-11-10 08:12:46-06",
       "fredUrl": "https://fred.stlouisfed.org/series/CPIAUCSL",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPIAUCSL",
       "localCsv": "/data/fred/CPIAUCSL.csv"
@@ -164,9 +164,9 @@
       "release": "Consumer Price Index",
       "releaseUrl": "http://www.bls.gov/cpi/",
       "firstDate": "1957-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 836,
-      "fredUpdated": "2026-10-14 08:08:29-05",
+      "lastDate": "2026-10-01",
+      "observations": 837,
+      "fredUpdated": "2026-11-10 08:13:38-06",
       "fredUrl": "https://fred.stlouisfed.org/series/CPILFESL",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CPILFESL",
       "localCsv": "/data/fred/CPILFESL.csv"
