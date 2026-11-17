@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-17T16:00:39.298Z",
+  "fetchedAt": "2026-11-17T19:00:36.380Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -268,7 +268,7 @@
       "firstDate": "2011-07-01",
       "lastDate": "2026-10-01",
       "observations": 62,
-      "fredUpdated": "2026-11-09 11:02:40-06",
+      "fredUpdated": "2026-11-17 11:03:34-06",
       "fredUrl": "https://fred.stlouisfed.org/series/GDPNOW",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GDPNOW",
       "localCsv": "/data/fred/GDPNOW.csv"
