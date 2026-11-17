@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-17T13:00:52.426Z",
+  "fetchedAt": "2026-11-17T16:00:39.298Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-13",
-      "observations": 2152,
-      "fredUpdated": "2026-11-16 07:02:29-06",
+      "lastDate": "2026-11-16",
+      "observations": 2153,
+      "fredUpdated": "2026-11-17 07:02:33-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -504,9 +504,9 @@
       "release": "Advance Monthly Sales for Retail and Food Services",
       "releaseUrl": "http://www.census.gov/retail/",
       "firstDate": "1992-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 417,
-      "fredUpdated": "2026-10-15 07:38:17-05",
+      "lastDate": "2026-10-01",
+      "observations": 418,
+      "fredUpdated": "2026-11-17 07:36:38-06",
       "fredUrl": "https://fred.stlouisfed.org/series/RSAFS",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RSAFS",
       "localCsv": "/data/fred/RSAFS.csv"
