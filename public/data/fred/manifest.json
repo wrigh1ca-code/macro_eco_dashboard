@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-18T13:00:36.845Z",
+  "fetchedAt": "2026-11-18T16:00:38.528Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-16",
-      "observations": 2153,
-      "fredUpdated": "2026-11-17 07:02:33-06",
+      "lastDate": "2026-11-17",
+      "observations": 2154,
+      "fredUpdated": "2026-11-18 07:02:31-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -268,7 +268,7 @@
       "firstDate": "2011-07-01",
       "lastDate": "2026-10-01",
       "observations": 62,
-      "fredUpdated": "2026-11-17 11:03:34-06",
+      "fredUpdated": "2026-11-18 09:32:38-06",
       "fredUrl": "https://fred.stlouisfed.org/series/GDPNOW",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GDPNOW",
       "localCsv": "/data/fred/GDPNOW.csv"
@@ -368,9 +368,9 @@
       "release": "New Residential Construction",
       "releaseUrl": "http://www.census.gov/construction/nrc/",
       "firstDate": "1960-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 801,
-      "fredUpdated": "2026-10-27 09:04:15-05",
+      "lastDate": "2026-10-01",
+      "observations": 802,
+      "fredUpdated": "2026-11-18 07:33:44-06",
       "fredUrl": "https://fred.stlouisfed.org/series/PERMIT",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PERMIT",
       "localCsv": "/data/fred/PERMIT.csv"
@@ -385,9 +385,9 @@
       "release": "New Residential Construction",
       "releaseUrl": "http://www.census.gov/construction/nrc/",
       "firstDate": "1959-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 813,
-      "fredUpdated": "2026-10-20 07:33:37-05",
+      "lastDate": "2026-10-01",
+      "observations": 814,
+      "fredUpdated": "2026-11-18 07:33:35-06",
       "fredUrl": "https://fred.stlouisfed.org/series/HOUST",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=HOUST",
       "localCsv": "/data/fred/HOUST.csv"
