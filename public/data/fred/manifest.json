@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-20T16:00:39.050Z",
+  "fetchedAt": "2026-11-20T19:00:35.109Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -470,9 +470,9 @@
       "release": "Surveys of Consumers",
       "releaseUrl": "http://www.sca.isr.umich.edu/",
       "firstDate": "1952-11-01",
-      "lastDate": "2026-09-01",
-      "observations": 677,
-      "fredUpdated": "2026-10-23 10:02:25-05",
+      "lastDate": "2026-10-01",
+      "observations": 678,
+      "fredUpdated": "2026-11-20 10:33:19-06",
       "fredUrl": "https://fred.stlouisfed.org/series/UMCSENT",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=UMCSENT",
       "localCsv": "/data/fred/UMCSENT.csv"
