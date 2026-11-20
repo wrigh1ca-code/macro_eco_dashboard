@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-20T19:05:49.785Z",
+  "fetchedAt": "2026-11-20T22:00:35.795Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -28,9 +28,9 @@
       "release": "Interest Rate on Reserve Balances",
       "releaseUrl": "http://www.federalreserve.gov/monetarypolicy/reqresbalances.htm",
       "firstDate": "2021-07-29",
-      "lastDate": "2026-11-20",
-      "observations": 1941,
-      "fredUpdated": "2026-11-19 15:31:23-06",
+      "lastDate": "2026-11-23",
+      "observations": 1944,
+      "fredUpdated": "2026-11-20 15:31:19-06",
       "fredUrl": "https://fred.stlouisfed.org/series/IORB",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IORB",
       "localCsv": "/data/fred/IORB.csv"
@@ -96,9 +96,9 @@
       "release": "H.15 Selected Interest Rates",
       "releaseUrl": "http://www.federalreserve.gov/releases/h15/",
       "firstDate": "1976-06-01",
-      "lastDate": "2026-11-18",
-      "observations": 12613,
-      "fredUpdated": "2026-11-19 15:16:36-06",
+      "lastDate": "2026-11-19",
+      "observations": 12614,
+      "fredUpdated": "2026-11-20 15:16:35-06",
       "fredUrl": "https://fred.stlouisfed.org/series/DGS2",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2",
       "localCsv": "/data/fred/DGS2.csv"
@@ -113,9 +113,9 @@
       "release": "H.15 Selected Interest Rates",
       "releaseUrl": "http://www.federalreserve.gov/releases/h15/",
       "firstDate": "1962-01-02",
-      "lastDate": "2026-11-18",
-      "observations": 16205,
-      "fredUpdated": "2026-11-19 15:16:41-06",
+      "lastDate": "2026-11-19",
+      "observations": 16206,
+      "fredUpdated": "2026-11-20 15:17:26-06",
       "fredUrl": "https://fred.stlouisfed.org/series/DGS10",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
       "localCsv": "/data/fred/DGS10.csv"
