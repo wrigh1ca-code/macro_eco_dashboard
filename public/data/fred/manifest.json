@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-23T13:00:41.073Z",
+  "fetchedAt": "2026-11-23T16:00:36.822Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-19",
-      "observations": 2156,
-      "fredUpdated": "2026-11-20 07:02:29-06",
+      "lastDate": "2026-11-20",
+      "observations": 2157,
+      "fredUpdated": "2026-11-23 07:02:31-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -453,9 +453,9 @@
       "release": "Chicago Fed National Activity Index",
       "releaseUrl": "https://www.chicagofed.org/research/data/cfnai/current-data",
       "firstDate": "1967-03-01",
-      "lastDate": "2026-09-01",
-      "observations": 715,
-      "fredUpdated": "2026-10-26 07:35:29-05",
+      "lastDate": "2026-10-01",
+      "observations": 716,
+      "fredUpdated": "2026-11-23 07:35:32-06",
       "fredUrl": "https://fred.stlouisfed.org/series/CFNAI",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CFNAI",
       "localCsv": "/data/fred/CFNAI.csv"
