@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-23T19:00:36.207Z",
+  "fetchedAt": "2026-11-23T22:00:36.255Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -28,9 +28,9 @@
       "release": "Interest Rate on Reserve Balances",
       "releaseUrl": "http://www.federalreserve.gov/monetarypolicy/reqresbalances.htm",
       "firstDate": "2021-07-29",
-      "lastDate": "2026-11-23",
-      "observations": 1944,
-      "fredUpdated": "2026-11-20 15:31:19-06",
+      "lastDate": "2026-11-24",
+      "observations": 1945,
+      "fredUpdated": "2026-11-23 15:31:25-06",
       "fredUrl": "https://fred.stlouisfed.org/series/IORB",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=IORB",
       "localCsv": "/data/fred/IORB.csv"
@@ -79,9 +79,9 @@
       "release": "Temporary Open Market Operations",
       "releaseUrl": "https://www.newyorkfed.org/markets/data-hub",
       "firstDate": "2013-09-23",
-      "lastDate": "2026-11-20",
-      "observations": 3207,
-      "fredUpdated": "2026-11-20 13:02:25-06",
+      "lastDate": "2026-11-23",
+      "observations": 3208,
+      "fredUpdated": "2026-11-23 13:02:32-06",
       "fredUrl": "https://fred.stlouisfed.org/series/RRPONTSYAWARD",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RRPONTSYAWARD",
       "localCsv": "/data/fred/RRPONTSYAWARD.csv"
@@ -96,9 +96,9 @@
       "release": "H.15 Selected Interest Rates",
       "releaseUrl": "http://www.federalreserve.gov/releases/h15/",
       "firstDate": "1976-06-01",
-      "lastDate": "2026-11-19",
-      "observations": 12614,
-      "fredUpdated": "2026-11-20 15:16:35-06",
+      "lastDate": "2026-11-20",
+      "observations": 12615,
+      "fredUpdated": "2026-11-23 15:34:41-06",
       "fredUrl": "https://fred.stlouisfed.org/series/DGS2",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS2",
       "localCsv": "/data/fred/DGS2.csv"
@@ -113,9 +113,9 @@
       "release": "H.15 Selected Interest Rates",
       "releaseUrl": "http://www.federalreserve.gov/releases/h15/",
       "firstDate": "1962-01-02",
-      "lastDate": "2026-11-19",
-      "observations": 16206,
-      "fredUpdated": "2026-11-20 15:17:26-06",
+      "lastDate": "2026-11-20",
+      "observations": 16207,
+      "fredUpdated": "2026-11-23 15:34:38-06",
       "fredUrl": "https://fred.stlouisfed.org/series/DGS10",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=DGS10",
       "localCsv": "/data/fred/DGS10.csv"
