@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-24T16:00:36.463Z",
+  "fetchedAt": "2026-11-24T19:00:37.998Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -402,9 +402,9 @@
       "release": "S&P Cotality Case-Shiller Home Price Indices",
       "releaseUrl": "https://www.spglobal.com/spdji/en/index-family/indicators/sp-corelogic-case-shiller/sp-corelogic-case-shiller-composite/#overview",
       "firstDate": "1987-01-01",
-      "lastDate": "2026-08-01",
-      "observations": 476,
-      "fredUpdated": "2026-10-27 14:26:03-05",
+      "lastDate": "2026-09-01",
+      "observations": 477,
+      "fredUpdated": "2026-11-24 11:07:58-06",
       "fredUrl": "https://fred.stlouisfed.org/series/CSUSHPINSA",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=CSUSHPINSA",
       "localCsv": "/data/fred/CSUSHPINSA.csv"
