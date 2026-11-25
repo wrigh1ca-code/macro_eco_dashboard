@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-25T13:00:36.517Z",
+  "fetchedAt": "2026-11-25T16:00:35.608Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-23",
-      "observations": 2158,
-      "fredUpdated": "2026-11-24 07:02:29-06",
+      "lastDate": "2026-11-24",
+      "observations": 2159,
+      "fredUpdated": "2026-11-25 07:02:30-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
@@ -181,9 +181,9 @@
       "release": "Personal Income and Outlays",
       "releaseUrl": "https://www.bea.gov/data/income-saving/personal-income",
       "firstDate": "1959-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 813,
-      "fredUpdated": "2026-10-29 07:43:35-05",
+      "lastDate": "2026-10-01",
+      "observations": 814,
+      "fredUpdated": "2026-11-25 07:42:53-06",
       "fredUrl": "https://fred.stlouisfed.org/series/PCEPILFE",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCEPILFE",
       "localCsv": "/data/fred/PCEPILFE.csv"
@@ -198,9 +198,9 @@
       "release": "Personal Income and Outlays",
       "releaseUrl": "https://www.bea.gov/data/income-saving/personal-income",
       "firstDate": "1959-01-01",
-      "lastDate": "2026-09-01",
-      "observations": 813,
-      "fredUpdated": "2026-10-29 07:43:37-05",
+      "lastDate": "2026-10-01",
+      "observations": 814,
+      "fredUpdated": "2026-11-25 07:42:50-06",
       "fredUrl": "https://fred.stlouisfed.org/series/PCEPI",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PCEPI",
       "localCsv": "/data/fred/PCEPI.csv"
@@ -251,7 +251,7 @@
       "firstDate": "1947-04-01",
       "lastDate": "2026-07-01",
       "observations": 318,
-      "fredUpdated": "2026-10-29 08:01:39-05",
+      "fredUpdated": "2026-11-25 07:55:45-06",
       "fredUrl": "https://fred.stlouisfed.org/series/A191RL1Q225SBEA",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=A191RL1Q225SBEA",
       "localCsv": "/data/fred/A191RL1Q225SBEA.csv"
@@ -370,7 +370,7 @@
       "firstDate": "1960-01-01",
       "lastDate": "2026-10-01",
       "observations": 802,
-      "fredUpdated": "2026-11-18 07:33:44-06",
+      "fredUpdated": "2026-11-25 09:03:26-06",
       "fredUrl": "https://fred.stlouisfed.org/series/PERMIT",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=PERMIT",
       "localCsv": "/data/fred/PERMIT.csv"
@@ -419,9 +419,9 @@
       "release": "Manufacturer's Shipments, Inventories, and Orders (M3) Survey",
       "releaseUrl": "http://www.census.gov/indicator/www/m3/",
       "firstDate": "1992-02-01",
-      "lastDate": "2026-09-01",
-      "observations": 416,
-      "fredUpdated": "2026-11-03 09:36:57-06",
+      "lastDate": "2026-10-01",
+      "observations": 417,
+      "fredUpdated": "2026-11-25 07:33:32-06",
       "fredUrl": "https://fred.stlouisfed.org/series/ADXTNO",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=ADXTNO",
       "localCsv": "/data/fred/ADXTNO.csv"
@@ -438,7 +438,7 @@
       "firstDate": "1976-01-01",
       "lastDate": "2026-10-01",
       "observations": 610,
-      "fredUpdated": "2026-11-06 14:04:31-06",
+      "fredUpdated": "2026-11-25 07:54:32-06",
       "fredUrl": "https://fred.stlouisfed.org/series/TOTALSA",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=TOTALSA",
       "localCsv": "/data/fred/TOTALSA.csv"
