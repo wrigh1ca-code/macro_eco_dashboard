@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-25T16:00:35.608Z",
+  "fetchedAt": "2026-11-25T19:00:35.666Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -268,7 +268,7 @@
       "firstDate": "2011-07-01",
       "lastDate": "2026-10-01",
       "observations": 62,
-      "fredUpdated": "2026-11-18 09:32:38-06",
+      "fredUpdated": "2026-11-25 11:03:13-06",
       "fredUrl": "https://fred.stlouisfed.org/series/GDPNOW",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=GDPNOW",
       "localCsv": "/data/fred/GDPNOW.csv"
@@ -283,9 +283,9 @@
       "release": "Primary Mortgage Market Survey",
       "releaseUrl": "http://www.freddiemac.com/pmms/",
       "firstDate": "1971-04-02",
-      "lastDate": "2026-11-19",
-      "observations": 2904,
-      "fredUpdated": "2026-11-19 11:02:28-06",
+      "lastDate": "2026-11-25",
+      "observations": 2905,
+      "fredUpdated": "2026-11-25 11:03:04-06",
       "fredUrl": "https://fred.stlouisfed.org/series/MORTGAGE30US",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=MORTGAGE30US",
       "localCsv": "/data/fred/MORTGAGE30US.csv"
