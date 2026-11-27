@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-27T13:00:42.753Z",
+  "fetchedAt": "2026-11-27T16:00:34.948Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -62,9 +62,9 @@
       "release": "Secured Overnight Financing Rate Data",
       "releaseUrl": "https://www.newyorkfed.org/markets/reference-rates/sofr",
       "firstDate": "2018-04-03",
-      "lastDate": "2026-11-24",
-      "observations": 2159,
-      "fredUpdated": "2026-11-25 07:02:30-06",
+      "lastDate": "2026-11-25",
+      "observations": 2160,
+      "fredUpdated": "2026-11-27 07:02:29-06",
       "fredUrl": "https://fred.stlouisfed.org/series/SOFR",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=SOFR",
       "localCsv": "/data/fred/SOFR.csv"
