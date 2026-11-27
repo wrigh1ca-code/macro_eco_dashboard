@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-27T19:00:35.568Z",
+  "fetchedAt": "2026-11-27T19:56:19.474Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -79,9 +79,9 @@
       "release": "Temporary Open Market Operations",
       "releaseUrl": "https://www.newyorkfed.org/markets/data-hub",
       "firstDate": "2013-09-23",
-      "lastDate": "2026-11-25",
-      "observations": 3210,
-      "fredUpdated": "2026-11-25 13:02:29-06",
+      "lastDate": "2026-11-27",
+      "observations": 3211,
+      "fredUpdated": "2026-11-27 13:02:33-06",
       "fredUrl": "https://fred.stlouisfed.org/series/RRPONTSYAWARD",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=RRPONTSYAWARD",
       "localCsv": "/data/fred/RRPONTSYAWARD.csv"
