@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-11-27T22:00:36.247Z",
+  "fetchedAt": "2026-11-28T01:00:35.532Z",
   "series": [
     {
       "id": "FEDFUNDS",
@@ -130,9 +130,9 @@
       "release": "Interest Rate Spreads",
       "releaseUrl": null,
       "firstDate": "1976-06-01",
-      "lastDate": "2026-11-25",
-      "observations": 12618,
-      "fredUpdated": "2026-11-25 16:04:33-06",
+      "lastDate": "2026-11-27",
+      "observations": 12619,
+      "fredUpdated": "2026-11-27 16:04:36-06",
       "fredUrl": "https://fred.stlouisfed.org/series/T10Y2Y",
       "csvUrl": "https://fred.stlouisfed.org/graph/fredgraph.csv?id=T10Y2Y",
       "localCsv": "/data/fred/T10Y2Y.csv"
